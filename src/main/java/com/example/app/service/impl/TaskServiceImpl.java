@@ -3,6 +3,7 @@ package com.example.app.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.modelmapper.internal.bytebuddy.asm.Advice.Enter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.app.dao.TaskDAO;
 import com.example.app.dto.TaskDto;
+import com.example.app.entity.Project;
 import com.example.app.entity.Task;
 import com.example.app.service.TaskService;
 
@@ -36,6 +38,37 @@ public class TaskServiceImpl extends BaseService implements TaskService {
 	public void addTask(TaskDto taskDto) {
 		Task task = mapper.map(taskDto, Task.class);
 		dao.addTask(task);
+	}
+
+	@Override
+	public void deleteTask(int id) {
+		TaskDto task = new TaskDto();
+		task.setId(id);
+		dao.deleteTask(mapper.map(task, Task.class));
+	}
+
+	@Override
+	public void updateTask(TaskDto task, int id) {
+		task.setId(id);
+		dao.updateTask(mapper.map(task, Task.class));
+	}
+
+	@Override
+	public List<TaskDto> searchTask(String searchText) {
+		List<TaskDto> list = new ArrayList<TaskDto>();
+		for (Task obj : dao.searchTasks(searchText)) {
+			list.add(mapper.map(obj, TaskDto.class));
+		}
+		return list;
+	}
+
+	@Override
+	public List<TaskDto> sortTasks(String flag) {
+		List<TaskDto> list = new ArrayList<TaskDto>();
+		for (Task obj : dao.sortTasks(flag)) {
+			list.add(mapper.map(obj, TaskDto.class));
+		}
+		return list;
 	}
 
 }

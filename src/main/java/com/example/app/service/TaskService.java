@@ -9,4 +9,12 @@ public interface TaskService {
 
 	public void addTask(TaskDto task);
 
+	public void deleteTask(int id);
+
+	public void updateTask(TaskDto project, int id);
+
+	public List<TaskDto> searchTask(String searchText);
+
+	public List<TaskDto> sortTasks(String sortBy);
+
 }

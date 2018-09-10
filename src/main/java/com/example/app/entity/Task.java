@@ -32,15 +32,15 @@ public class Task implements Serializable {
 	@Column(name = "Task")
 	private String name;
 
-	@ManyToOne(targetEntity = ParentTask.class, cascade = CascadeType.ALL)
+	@ManyToOne(targetEntity = ParentTask.class)
 	@JoinColumn(name = "Parent_ID")
 	private ParentTask parentTask;
 
-	@ManyToOne(targetEntity = Project.class, cascade = CascadeType.ALL)
+	@ManyToOne(targetEntity = Project.class)
 	@JoinColumn(name = "Project_ID")
 	private Project project;
 
-	@ManyToOne(targetEntity = User.class, cascade = CascadeType.ALL)
+	@ManyToOne(targetEntity = User.class)
 	@JoinColumn(name = "User_ID")
 	private User user;
 
@@ -114,4 +114,21 @@ public class Task implements Serializable {
 		this.status = status;
 	}
 
+	public Project getProject() {
+		return project;
+	}
+
+	public void setProject(Project project) {
+		this.project = project;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	
 }

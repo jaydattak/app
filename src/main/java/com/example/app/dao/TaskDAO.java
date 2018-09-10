@@ -9,4 +9,12 @@ public interface TaskDAO {
 
 	public void addTask(Task project);
 
+	public void deleteTask(Task map);
+
+	public void updateTask(Task map);
+
+	public List<Task> searchTasks(String searchText);
+
+	public List<Task> sortTasks(String flag);
+
 }
