@@ -1,5 +1,6 @@
 package com.example.app.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.app.dao.ParentTaskDAO;
 import com.example.app.dto.ParentTaskDto;
+import com.example.app.entity.ParentTask;
 import com.example.app.service.ParentTaskService;
 
 @Service
@@ -21,12 +23,41 @@ public class ParentTaskServiceImpl extends BaseService implements ParentTaskServ
 
 	@Override
 	public List<ParentTaskDto> getTaskList() {
-		return dao.getTaskList();
+		ParentTaskDto task = null;
+		List<ParentTaskDto> list = new ArrayList<ParentTaskDto>();
+		for (ParentTask tempObj : dao.getTaskList()) {
+			task = mapper.map(tempObj, ParentTaskDto.class);
+			list.add(task);
+		}
+		return list;
 	}
 
 	@Override
-	public void addTask(ParentTaskDto task) {
+	public void addTask(ParentTaskDto taskDto) {
+		ParentTask task = mapper.map(taskDto, ParentTask.class);
 		dao.addTask(task);
+	}
+
+	@Override
+	public void deleteTask(int id) {
+		ParentTaskDto task = new ParentTaskDto();
+		task.setId(id);
+		dao.deleteTask(mapper.map(task, ParentTask.class));
+	}
+
+	@Override
+	public void updateTask(ParentTaskDto task, int id) {
+		task.setId(id);
+		dao.updateTask(mapper.map(task, ParentTask.class));
+	}
+
+	@Override
+	public List<ParentTaskDto> searchTask(String searchText) {
+		List<ParentTaskDto> list = new ArrayList<ParentTaskDto>();
+		for (ParentTask obj : dao.searchTasks(searchText)) {
+			list.add(mapper.map(obj, ParentTaskDto.class));
+		}
+		return list;
 	}
 
 }

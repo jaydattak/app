@@ -57,8 +57,8 @@ public class TaskDAOImpl implements TaskDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Task> searchTasks(String searchText) {
-		List<Task> tasks = entityManager.createQuery("from Task where firstName like ?1 or lastName like ?2")
-				.setParameter(1, "%" + searchText + "%").setParameter(2, "%" + searchText + "%").getResultList();
+		List<Task> tasks = entityManager.createQuery("from Task where name like ?1")
+				.setParameter(1, "%" + searchText + "%").getResultList();
 		return tasks;
 	}
 
