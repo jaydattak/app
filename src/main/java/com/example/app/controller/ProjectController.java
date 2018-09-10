@@ -20,7 +20,7 @@ import com.example.app.service.ProjectService;
 @RequestMapping(path = "/project")
 public class ProjectController extends BaseController {
 
-	Logger logger = LoggerFactory.getLogger(ProjectController.class);
+	private static final Logger logger = LoggerFactory.getLogger(ProjectController.class);
 
 	@Autowired
 	private ProjectService service;

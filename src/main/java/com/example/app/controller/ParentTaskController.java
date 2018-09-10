@@ -32,8 +32,9 @@ public class ParentTaskController extends BaseController {
 		return tasks;
 	}
 
-	@RequestMapping("/add")
-	public ResponseMessage getTaskList(@RequestBody ParentTaskDto task) {
+	@RequestMapping(path = "/add", method = RequestMethod.POST)
+	public ResponseMessage addParentTask(@RequestBody ParentTaskDto task) {
+		System.out.println("I m here");
 		try {
 			service.addTask(task);
 		} catch (Exception e) {

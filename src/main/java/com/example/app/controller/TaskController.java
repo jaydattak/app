@@ -32,7 +32,7 @@ public class TaskController extends BaseController {
 	}
 
 	@RequestMapping("/add")
-	public ResponseMessage getTaskList(@RequestBody TaskDto task) {
+	public ResponseMessage addTask(@RequestBody TaskDto task) {
 		try {
 			service.addTask(task);
 		} catch (Exception e) {
