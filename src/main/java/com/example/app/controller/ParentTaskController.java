@@ -29,7 +29,6 @@ public class ParentTaskController extends BaseController {
 	public List<ParentTaskDto> getTaskList() {
 		logger.debug("Get TaskList");
 		List<ParentTaskDto> tasks = service.getTaskList();
-		System.out.println(getAppMessage("greeting"));
 		return tasks;
 	}
 

@@ -37,6 +37,9 @@ public class TaskServiceImpl extends BaseService implements TaskService {
 	@Override
 	public void addTask(TaskDto taskDto) {
 		Task task = mapper.map(taskDto, Task.class);
+		if (!taskDto.isMainTask()) {
+			task.setParentTask(null);
+		}
 		dao.addTask(task);
 	}
 

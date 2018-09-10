@@ -22,6 +22,8 @@ public class TaskDto {
 
 	private String status;
 
+	private boolean isMainTask;
+
 	public int getId() {
 		return id;
 	}
@@ -93,7 +95,13 @@ public class TaskDto {
 	public void setUser(UserDto user) {
 		this.user = user;
 	}
-	
-	
+
+	public boolean isMainTask() {
+		return isMainTask;
+	}
+
+	public void setMainTask(boolean isMainTask) {
+		this.isMainTask = isMainTask;
+	}
 
 }

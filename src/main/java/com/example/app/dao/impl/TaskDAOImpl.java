@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.example.app.dao.TaskDAO;
+import com.example.app.entity.ParentTask;
 import com.example.app.entity.Project;
 import com.example.app.entity.Task;
 import com.example.app.entity.User;
@@ -38,6 +39,12 @@ public class TaskDAOImpl implements TaskDAO {
 		task.setProject(project);
 		User user = entityManager.getReference(User.class, task.getUser().getId());
 		task.setUser(user);
+
+		if (task.getParentTask() != null) {
+			ParentTask parentTask = entityManager.getReference(ParentTask.class, task.getParentTask());
+			task.setParentTask(parentTask);
+		}
+
 		entityManager.persist(task);
 	}
 
