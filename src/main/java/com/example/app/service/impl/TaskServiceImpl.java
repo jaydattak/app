@@ -53,6 +53,9 @@ public class TaskServiceImpl extends BaseService implements TaskService {
 	@Override
 	public void updateTask(TaskDto task, int id) {
 		task.setId(id);
+		if (task.getParentTask().getId() == 0) {
+			task.setParentTask(null);
+		}
 		dao.updateTask(mapper.map(task, Task.class));
 	}
 
@@ -70,6 +73,28 @@ public class TaskServiceImpl extends BaseService implements TaskService {
 		List<TaskDto> list = new ArrayList<TaskDto>();
 		for (Task obj : dao.sortTasks(flag)) {
 			list.add(mapper.map(obj, TaskDto.class));
+		}
+		return list;
+	}
+
+	@Override
+	public List<TaskDto> getTaskListByProject(String id) {
+		TaskDto task = null;
+		List<TaskDto> list = new ArrayList<TaskDto>();
+		for (Task tempObj : dao.getTaskListByProject(id)) {
+			task = mapper.map(tempObj, TaskDto.class);
+			list.add(task);
+		}
+		return list;
+	}
+
+	@Override
+	public List<TaskDto> getTaskListByProjectWithSort(int id, String sortBy) {
+		TaskDto task = null;
+		List<TaskDto> list = new ArrayList<TaskDto>();
+		for (Task tempObj : dao.getTaskListByProjectWithSort(id, sortBy)) {
+			task = mapper.map(tempObj, TaskDto.class);
+			list.add(task);
 		}
 		return list;
 	}

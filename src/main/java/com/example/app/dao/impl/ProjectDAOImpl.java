@@ -59,8 +59,8 @@ public class ProjectDAOImpl implements ProjectDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Project> searchProjects(String searchText) {
-		List<Project> projects = entityManager.createQuery("from Project where firstName like ?1 or lastName like ?2")
-				.setParameter(1, "%" + searchText + "%").setParameter(2, "%" + searchText + "%").getResultList();
+		List<Project> projects = entityManager.createQuery("from Project where name like ?1")
+				.setParameter(1, "%" + searchText + "%").getResultList();
 		return projects;
 	}
 

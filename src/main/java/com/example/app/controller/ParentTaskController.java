@@ -25,7 +25,7 @@ public class ParentTaskController extends BaseController {
 	@Autowired
 	private ParentTaskService service;
 
-	@RequestMapping("/list")
+	@RequestMapping(path = "/list", method = RequestMethod.GET)
 	public List<ParentTaskDto> getTaskList() {
 		logger.debug("Get TaskList");
 		List<ParentTaskDto> tasks = service.getTaskList();
@@ -41,26 +41,6 @@ public class ParentTaskController extends BaseController {
 			return new ResponseMessage(false, getAppMessage(ConstantsIf.SAVE_ERROR), e);
 		}
 		return new ResponseMessage(true, getAppMessage(ConstantsIf.SAVE_SUCCESS));
-	}
-
-	@RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
-	public ResponseMessage deleteTask(@PathVariable(name = "id") int id) {
-		try {
-			service.deleteTask(id);
-		} catch (Exception e) {
-			return new ResponseMessage(false, getAppMessage(ConstantsIf.DELETE_ERROR), e);
-		}
-		return new ResponseMessage(true, getAppMessage(ConstantsIf.DELETE_SUCCESS));
-	}
-
-	@RequestMapping(path = "/{id}", method = RequestMethod.PUT)
-	public ResponseMessage updateTask(@PathVariable(name = "id") int id, @RequestBody ParentTaskDto project) {
-		try {
-			service.updateTask(project, id);
-		} catch (Exception e) {
-			return new ResponseMessage(false, getAppMessage(ConstantsIf.UPDATE_ERROR), e);
-		}
-		return new ResponseMessage(true, getAppMessage(ConstantsIf.UPDATE_SUCCESS));
 	}
 
 	@RequestMapping(path = "/search/{searchText}", method = RequestMethod.GET)

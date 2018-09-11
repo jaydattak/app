@@ -41,7 +41,7 @@ public class TaskDAOImpl implements TaskDAO {
 		task.setUser(user);
 
 		if (task.getParentTask() != null) {
-			ParentTask parentTask = entityManager.getReference(ParentTask.class, task.getParentTask());
+			ParentTask parentTask = entityManager.getReference(ParentTask.class, task.getParentTask().getId());
 			task.setParentTask(parentTask);
 		}
 
@@ -50,6 +50,15 @@ public class TaskDAOImpl implements TaskDAO {
 
 	@Override
 	public void updateTask(Task task) {
+		Project project = entityManager.getReference(Project.class, task.getProject().getId());
+		task.setProject(project);
+		User user = entityManager.getReference(User.class, task.getUser().getId());
+		task.setUser(user);
+
+		if (task.getParentTask() != null) {
+			ParentTask parentTask = entityManager.getReference(ParentTask.class, task.getParentTask().getId());
+			task.setParentTask(parentTask);
+		}
 		entityManager.merge(task);
 	}
 
@@ -72,11 +81,37 @@ public class TaskDAOImpl implements TaskDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Task> sortTasks(String sortFlag) {
+		String query = " order by " + sortFlag;
 		if ("id".equals(sortFlag)) {
-			sortFlag = "employeeId";
+			query += " employeeId";
+		} else if ("completed".equalsIgnoreCase(sortFlag)) {
+			query = " where status = 'completed' order by status";
 		}
-		List<Task> tasks = entityManager.createQuery("from Task order by " + sortFlag).getResultList();
+		List<Task> tasks = entityManager.createQuery("from Task " + query).getResultList();
 		return tasks;
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Task> getTaskListByProject(String id) {
+		List<Task> tasks = (List<Task>) entityManager.createQuery("from Task where Project_ID = ?1").setParameter(1, id)
+				.getResultList();
+		return tasks;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Task> getTaskListByProjectWithSort(int id, String sortBy) {
+		String query = " where Project_ID = ?1";
+		if ("id".equals(sortBy)) {
+			query += " order by employeeId";
+		} else if ("completed".equalsIgnoreCase(sortBy)) {
+			query += " and status = 'completed' order by status";
+		} else {
+			query += " order by " + sortBy;
+		}
+		List<Task> tasks = (List<Task>) entityManager.createQuery("from Task " + query).setParameter(1, id)
+				.getResultList();
+		return tasks;
+	}
 }

@@ -25,13 +25,13 @@ public class TaskController extends BaseController {
 	@Autowired
 	private TaskService service;
 
-	@RequestMapping("/list")
+	@RequestMapping(path = "/list",  method = RequestMethod.GET)
 	public List<TaskDto> getTaskList() {
 		List<TaskDto> tasks = service.getTaskList();
 		return tasks;
 	}
 
-	@RequestMapping("/add")
+	@RequestMapping(path = "/add",  method = RequestMethod.POST)
 	public ResponseMessage addTask(@RequestBody TaskDto task) {
 		try {
 			service.addTask(task);
@@ -70,5 +70,19 @@ public class TaskController extends BaseController {
 	public List<TaskDto> sortTasks(@PathVariable(name = "sortBy") String sortBy) {
 		return service.sortTasks(sortBy);
 	}
+	
+	@RequestMapping(path = "/list/project/{id}", method = RequestMethod.GET)
+	public List<TaskDto> getTaskListByProject(@PathVariable(name = "id") String id) {
+		List<TaskDto> tasks = service.getTaskListByProject(id);
+		return tasks;
+	}
+	
+	@RequestMapping(path = "/sort/{id}/{sortBy}", method = RequestMethod.GET)
+	public List<TaskDto> getTaskListByProjectWithSort(@PathVariable(name = "id") int id, @PathVariable(name = "sortBy") String sortBy) {
+		List<TaskDto> tasks = service.getTaskListByProjectWithSort(id, sortBy);
+		return tasks;
+	}
+
+
 
 }
