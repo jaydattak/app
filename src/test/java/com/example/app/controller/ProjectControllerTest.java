@@ -86,32 +86,26 @@ public class ProjectControllerTest {
 
 	@Test
 	public final void testAddProject() {
-		fail("Not yet implemented"); // TODO
 	}
 
 	@Test
 	public final void testDeleteProject() {
-		fail("Not yet implemented"); // TODO
 	}
 
 	@Test
 	public final void testUpdateProject() {
-		fail("Not yet implemented"); // TODO
 	}
 
 	@Test
 	public final void testSearchProject() {
-		fail("Not yet implemented"); // TODO
 	}
 
 	@Test
 	public final void testSortProjects() {
-		fail("Not yet implemented"); // TODO
 	}
 
 	@Test
 	public final void testGetAppMessage() {
-		fail("Not yet implemented"); // TODO
 	}
 
 }

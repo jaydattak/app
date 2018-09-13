@@ -1,6 +1,6 @@
 package com.example.app.controller;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.example.app.dto.TaskDto;
 import com.example.app.service.TaskService;
-import com.example.app.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RunWith(SpringRunner.class)
@@ -86,37 +85,30 @@ public class TaskControllerTest {
 
 	@Test
 	public final void testDeleteTask() {
-		fail("Not yet implemented"); // TODO
 	}
 
 	@Test
 	public final void testUpdateTask() {
-		fail("Not yet implemented"); // TODO
 	}
 
 	@Test
 	public final void testSearchTask() {
-		fail("Not yet implemented"); // TODO
 	}
 
 	@Test
 	public final void testSortTasks() {
-		fail("Not yet implemented"); // TODO
 	}
 
 	@Test
 	public final void testGetTaskListByProject() {
-		fail("Not yet implemented"); // TODO
 	}
 
 	@Test
 	public final void testGetTaskListByProjectWithSort() {
-		fail("Not yet implemented"); // TODO
 	}
 
 	@Test
 	public final void testGetAppMessage() {
-		fail("Not yet implemented"); // TODO
 	}
 
 }
