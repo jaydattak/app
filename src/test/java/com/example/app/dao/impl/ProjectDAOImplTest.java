@@ -115,10 +115,28 @@ public class ProjectDAOImplTest {
 		project.setManager(user);
 		when(entityManager.contains(project.getManager())).thenReturn(true);
 		when(entityManager.getReference(User.class, project.getManager().getId())).thenReturn(user);
-		
+
 		dao.addProject(project);
 
 		verify(entityManager, times(1)).persist(project);
+	}
+
+	@Test
+	public final void testAddProjectWithoutReference() {
+		Project project = list.get(0);
+		User user = new User();
+		user.setId(1);
+		user.setFirstName("FName");
+		user.setEmployeeId("1001");
+		project.setManager(user);
+
+		when(entityManager.contains(project.getManager())).thenReturn(false);
+		when(entityManager.getReference(User.class, project.getManager().getId())).thenReturn(user);
+
+		dao.addProject(project);
+
+		verify(entityManager, times(1)).persist(project);
+
 	}
 
 	@Test
@@ -134,6 +152,18 @@ public class ProjectDAOImplTest {
 	public final void testDeleteProject() {
 		Project project = list.get(0);
 		when(entityManager.contains(project)).thenReturn(true);
+		when(entityManager.getReference(Project.class, project.getId())).thenReturn(project);
+
+		dao.deleteProject(project);
+
+		verify(entityManager, times(1)).remove(project);
+	}
+
+	@Test
+	public final void testDeleteProjectWithoutReference() {
+		Project project = list.get(0);
+
+		when(entityManager.contains(project)).thenReturn(false);
 		when(entityManager.getReference(Project.class, project.getId())).thenReturn(project);
 
 		dao.deleteProject(project);

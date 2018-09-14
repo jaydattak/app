@@ -112,6 +112,17 @@ public class UserDAOImplTest {
 
 		verify(entityManager, times(1)).remove(user);
 	}
+	
+	@Test
+	public final void testDeleteUserWithoutReference() {
+		User user = list.get(0);
+		when(entityManager.contains(user)).thenReturn(false);
+		when(entityManager.getReference(User.class, user.getId())).thenReturn(user);
+
+		dao.deleteUser(user);
+
+		verify(entityManager, times(1)).remove(user);
+	}
 
 	@Test
 	public final void testSearchUsers() {

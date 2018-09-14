@@ -148,6 +148,19 @@ public class TaskDAOImplTest {
 
 		verify(entityManager, times(1)).remove(task);
 	}
+	
+	@Test
+	public final void testDeleteTaskWithoutReference() {
+		Task task = list.get(0);
+
+		when(entityManager.contains(task)).thenReturn(false);
+		when(entityManager.getReference(Task.class, task.getId())).thenReturn(task);
+
+		dao.deleteTask(task);
+
+		verify(entityManager, times(1)).remove(task);
+	}
+
 
 	@Test
 	public final void testSearchTasks() {
@@ -164,6 +177,23 @@ public class TaskDAOImplTest {
 		when(entityManager.createQuery("from Task order by employeeId")).thenReturn(query);
 		when(query.getResultList()).thenReturn(list);
 		List<Task> tasks = dao.sortTasks("id");
+		assertEquals(1, tasks.size());
+	}
+	
+	@Test
+	public final void testSortTasksByCompleted() {
+		when(entityManager.createQuery("from Task where status = 'completed' order by status")).thenReturn(query);
+		when(query.getResultList()).thenReturn(list);
+		List<Task> tasks = dao.sortTasks("completed");
+		assertEquals(1, tasks.size());
+	}
+	
+
+	@Test
+	public final void testSortTasksByPriority() {
+		when(entityManager.createQuery("from Task order by priority")).thenReturn(query);
+		when(query.getResultList()).thenReturn(list);
+		List<Task> tasks = dao.sortTasks("priority");
 		assertEquals(1, tasks.size());
 	}
 
