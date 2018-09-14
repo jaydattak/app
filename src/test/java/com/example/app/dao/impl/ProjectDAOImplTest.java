@@ -1,7 +1,6 @@
 package com.example.app.dao.impl;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -23,7 +22,6 @@ import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.example.app.dao.impl.ProjectDAOImpl;
 import com.example.app.dto.ProjectDto;
 import com.example.app.entity.Project;
 import com.example.app.entity.Task;
@@ -65,7 +63,7 @@ public class ProjectDAOImplTest {
 	private void populateList() {
 		Project project = new Project();
 		project.setId(1);
-		project.setName("ParentProject1");
+		project.setName("Project1");
 
 		Task task = new Task();
 		task.setId(1);
@@ -81,7 +79,7 @@ public class ProjectDAOImplTest {
 
 		project = new Project();
 		project.setId(2);
-		project.setName("ParentProject2");
+		project.setName("Project2");
 
 		tasks = new HashSet<Task>();
 		tasks.add(task);
@@ -143,11 +141,11 @@ public class ProjectDAOImplTest {
 	@Test
 	public final void testSearchProjects() {
 		when(entityManager.createQuery("from Project where name like ?1")).thenReturn(query);
-		when(query.setParameter(1, "%ParentProject1%")).thenReturn(query);
+		when(query.setParameter(1, "%Project1%")).thenReturn(query);
 		when(query.getResultList()).thenReturn(list);
-		List<Project> projects = dao.searchProjects("ParentProject1");
+		List<Project> projects = dao.searchProjects("Project1");
 		assertEquals(1, projects.size());
-		assertEquals("ParentProject1", projects.get(0).getName());
+		assertEquals("Project1", projects.get(0).getName());
 	}
 
 	@Test

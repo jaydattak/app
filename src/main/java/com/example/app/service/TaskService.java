@@ -17,7 +17,7 @@ public interface TaskService {
 
 	public List<TaskDto> sortTasks(String sortBy);
 
-	public List<TaskDto> getTaskListByProject(String id);
+	public List<TaskDto> getTaskListByProject(int id);
 
 	public List<TaskDto> getTaskListByProjectWithSort(int id, String sortBy);
 

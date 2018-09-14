@@ -8,7 +8,7 @@ public interface UserDAO {
 
 	public List<User> getUserList();
 
-	public void addUser(User project);
+	public void addUser(User user);
 
 	public void updateUser(User user);
 

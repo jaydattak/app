@@ -20,7 +20,7 @@ public class ParentTask implements Serializable {
 	@Column(name = "Parent_ID")
 	private int id;
 	
-	@Column(name = "Parent_Task")
+	@Column(name = "Parent_Task", nullable = false, unique = true)
 	private String name;
 
 	public int getId() {

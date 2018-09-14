@@ -17,7 +17,7 @@ public interface TaskDAO {
 
 	public List<Task> sortTasks(String flag);
 
-	public List<Task> getTaskListByProject(String id);
+	public List<Task> getTaskListByProject(int id);
 
 	public List<Task> getTaskListByProjectWithSort(int id, String sortBy);
 

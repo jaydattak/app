@@ -45,9 +45,10 @@ public class TaskServiceImpl extends BaseService implements TaskService {
 
 	@Override
 	public void deleteTask(int id) {
-		TaskDto task = new TaskDto();
-		task.setId(id);
-		dao.deleteTask(mapper.map(task, Task.class));
+		TaskDto taskDto = new TaskDto();
+		taskDto.setId(id);
+		Task task = mapper.map(taskDto, Task.class);
+		dao.deleteTask(task);
 	}
 
 	@Override
@@ -78,7 +79,7 @@ public class TaskServiceImpl extends BaseService implements TaskService {
 	}
 
 	@Override
-	public List<TaskDto> getTaskListByProject(String id) {
+	public List<TaskDto> getTaskListByProject(int id) {
 		TaskDto task = null;
 		List<TaskDto> list = new ArrayList<TaskDto>();
 		for (Task tempObj : dao.getTaskListByProject(id)) {

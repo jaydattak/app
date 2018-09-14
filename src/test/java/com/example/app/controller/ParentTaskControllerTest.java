@@ -4,6 +4,7 @@
 package com.example.app.controller;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +12,6 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -23,7 +23,8 @@ import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.example.app.dto.ParentTaskDto;
-import com.example.app.service.ParentTaskService;
+import com.example.app.dto.ResponseMessage;
+import com.example.app.service.impl.ParentTaskServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
@@ -34,20 +35,22 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @WebMvcTest(value = ParentTaskController.class, secure = false)
 public class ParentTaskControllerTest {
 
-	private static final String BASE_URL = "http://localhost:8080/";
+	private static final String BASE_URL = "http://localhost:8080/parenttask/";
+
+	@Autowired
+	private ObjectMapper jsonMapper;
 
 	@Autowired
 	private MockMvc mockMvc;
 
 	@MockBean
-	private ParentTaskService service;
-
-	@Autowired
-	private ObjectMapper jsonMapper;
+	private ParentTaskServiceImpl service;
 
 	List<ParentTaskDto> list = new ArrayList<ParentTaskDto>();
 
 	List<ParentTaskDto> mulipleItemsList = new ArrayList<ParentTaskDto>();
+
+	private ResponseMessage successMesg;
 
 	/**
 	 * @throws java.lang.Exception
@@ -75,9 +78,9 @@ public class ParentTaskControllerTest {
 	 */
 	@Test
 	public final void testGetTaskList() throws Exception {
-		Mockito.when(service.getTaskList()).thenReturn(list);
+		when(service.getTaskList()).thenReturn(list);
 
-		RequestBuilder requestBuilder = MockMvcRequestBuilders.get(BASE_URL + "parenttask/list")
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.get(BASE_URL + "list")
 				.accept(MediaType.APPLICATION_JSON);
 
 		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
@@ -87,9 +90,9 @@ public class ParentTaskControllerTest {
 
 	@Test
 	public final void testGetTaskListWithManyItems() throws Exception {
-		Mockito.when(service.getTaskList()).thenReturn(mulipleItemsList);
+		when(service.getTaskList()).thenReturn(mulipleItemsList);
 
-		RequestBuilder requestBuilder = MockMvcRequestBuilders.get(BASE_URL + "/parenttask/list")
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.get(BASE_URL + "list")
 				.accept(MediaType.APPLICATION_JSON);
 		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 
@@ -99,10 +102,19 @@ public class ParentTaskControllerTest {
 	/**
 	 * Test method for
 	 * {@link com.example.app.controller.ParentTaskController#addTask(com.example.app.dto.ParentTaskDto)}.
+	 * 
+	 * @throws Exception
 	 */
 	@Test
-	public final void testAddTask() {
+	public final void testAddTask() throws Exception {
+		successMesg = new ResponseMessage(true, "Record saved successfully!");
 
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.post(BASE_URL + "add")
+				.contentType(MediaType.APPLICATION_JSON_UTF8).content(jsonMapper.writeValueAsString(list.get(0)));
+
+		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+
+		assertEquals(jsonMapper.writeValueAsString(successMesg), result.getResponse().getContentAsString());
 	}
 
 }

@@ -9,10 +9,6 @@ public interface ParentTaskService {
 
 	public void addTask(ParentTaskDto task);
 
-	public void deleteTask(int id);
-
-	public void updateTask(ParentTaskDto project, int id);
-
 	public List<ParentTaskDto> searchTask(String searchText);
 
 }

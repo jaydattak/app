@@ -45,8 +45,6 @@ public class UserControllerTest {
 
 	private ResponseMessage successMesg;
 
-	private ResponseMessage errorMesg;
-
 	/**
 	 * @throws java.lang.Exception
 	 */

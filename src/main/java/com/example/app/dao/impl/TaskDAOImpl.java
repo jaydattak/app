@@ -81,11 +81,13 @@ public class TaskDAOImpl implements TaskDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Task> sortTasks(String sortFlag) {
-		String query = " order by " + sortFlag;
+		String query = "order by ";
 		if ("id".equals(sortFlag)) {
-			query += " employeeId";
+			query += "employeeId";
 		} else if ("completed".equalsIgnoreCase(sortFlag)) {
-			query = " where status = 'completed' order by status";
+			query = "where status = 'completed' order by status";
+		} else {
+			query += sortFlag;
 		}
 		List<Task> tasks = entityManager.createQuery("from Task " + query).getResultList();
 		return tasks;
@@ -93,7 +95,7 @@ public class TaskDAOImpl implements TaskDAO {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Task> getTaskListByProject(String id) {
+	public List<Task> getTaskListByProject(int id) {
 		List<Task> tasks = (List<Task>) entityManager.createQuery("from Task where Project_ID = ?1").setParameter(1, id)
 				.getResultList();
 		return tasks;

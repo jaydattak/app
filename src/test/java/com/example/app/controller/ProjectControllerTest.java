@@ -1,7 +1,6 @@
 package com.example.app.controller;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,11 +20,15 @@ import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.example.app.dto.ProjectDto;
+import com.example.app.dto.ResponseMessage;
 import com.example.app.service.ProjectService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(value = ProjectController.class, secure = false)
 public class ProjectControllerTest {
+
+	private static final String BASE_URL = "http://localhost:8080/project/";
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -33,9 +36,14 @@ public class ProjectControllerTest {
 	@MockBean
 	private ProjectService service;
 
+	@Autowired
+	private ObjectMapper jsonMapper;
+
 	List<ProjectDto> list = new ArrayList<ProjectDto>();
 
 	List<ProjectDto> mulipleItemsList = new ArrayList<ProjectDto>();
+
+	private ResponseMessage successMesg;
 
 	/**
 	 * @throws java.lang.Exception
@@ -59,53 +67,94 @@ public class ProjectControllerTest {
 	public final void testGetProjectList() throws Exception {
 		Mockito.when(service.getProjectList()).thenReturn(list);
 
-		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("http://localhost:8080/project/list")
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.get(BASE_URL + "list")
 				.accept(MediaType.APPLICATION_JSON);
 
 		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 
-		System.out.println(result.getResponse());
-		String expected = "[{\"id\":1,\"name\":\"ParentProject1\"}]";
-
-		assertEquals(expected, result.getResponse().getContentAsString());
+		assertEquals(jsonMapper.writeValueAsString(list), result.getResponse().getContentAsString());
 	}
 
 	@Test
 	public final void testGetProjectListWithManyItems() throws Exception {
 		Mockito.when(service.getProjectList()).thenReturn(mulipleItemsList);
 
-		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("http://localhost:8080/project/list")
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.get(BASE_URL + "list")
 				.accept(MediaType.APPLICATION_JSON);
 
 		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 
-		String expected = "[{\"id\":1,\"name\":\"ParentProject1\"},{\"id\":2,\"name\":\"ParentProject2\"}]";
-
-		assertEquals(expected, result.getResponse().getContentAsString());
+		assertEquals(jsonMapper.writeValueAsString(mulipleItemsList), result.getResponse().getContentAsString());
 	}
 
 	@Test
-	public final void testAddProject() {
+	public final void testAddProject() throws Exception {
+		successMesg = new ResponseMessage(true, "Record saved successfully!");
+
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.post(BASE_URL + "add")
+				.contentType(MediaType.APPLICATION_JSON_UTF8).content(jsonMapper.writeValueAsString(list.get(0)));
+
+		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+
+		assertEquals(jsonMapper.writeValueAsString(successMesg), result.getResponse().getContentAsString());
 	}
 
 	@Test
-	public final void testDeleteProject() {
+	public final void testDeleteProject() throws Exception {
+		successMesg = new ResponseMessage(true, "Record deleted successfully!");
+
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.delete(BASE_URL + "1")
+				.contentType(MediaType.APPLICATION_JSON_UTF8);
+
+		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+
+		assertEquals(jsonMapper.writeValueAsString(successMesg), result.getResponse().getContentAsString());
 	}
 
 	@Test
-	public final void testUpdateProject() {
+	public final void testUpdateProject() throws Exception {
+
+		successMesg = new ResponseMessage(true, "Record updated successfully!");
+
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.put(BASE_URL + "1")
+				.contentType(MediaType.APPLICATION_JSON_UTF8).content(jsonMapper.writeValueAsString(list.get(0)));
+
+		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+
+		assertEquals(jsonMapper.writeValueAsString(successMesg), result.getResponse().getContentAsString());
 	}
 
 	@Test
-	public final void testSearchProject() {
+	public final void testSearchProject() throws Exception {
+		Mockito.when(service.searchProject("ParentProject1")).thenReturn(list);
+
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.get(BASE_URL + "search/ParentProject1")
+				.contentType(MediaType.APPLICATION_JSON_UTF8);
+
+		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+
+		assertEquals(jsonMapper.writeValueAsString(list), result.getResponse().getContentAsString());
+
+		Mockito.when(service.searchProject("ParentProject")).thenReturn(mulipleItemsList);
+
+		requestBuilder = MockMvcRequestBuilders.get(BASE_URL + "search/ParentProject")
+				.contentType(MediaType.APPLICATION_JSON_UTF8);
+
+		result = mockMvc.perform(requestBuilder).andReturn();
+
+		assertEquals(jsonMapper.writeValueAsString(mulipleItemsList), result.getResponse().getContentAsString());
 	}
 
 	@Test
-	public final void testSortProjects() {
-	}
+	public final void testSortProjects() throws Exception {
+		Mockito.when(service.sortProjects("name")).thenReturn(list);
 
-	@Test
-	public final void testGetAppMessage() {
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.get(BASE_URL + "sort/name")
+				.contentType(MediaType.APPLICATION_JSON_UTF8);
+
+		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+
+		assertEquals(jsonMapper.writeValueAsString(list), result.getResponse().getContentAsString());
 	}
 
 }

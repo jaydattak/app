@@ -72,7 +72,7 @@ public class TaskController extends BaseController {
 	}
 	
 	@RequestMapping(path = "/list/project/{id}", method = RequestMethod.GET)
-	public List<TaskDto> getTaskListByProject(@PathVariable(name = "id") String id) {
+	public List<TaskDto> getTaskListByProject(@PathVariable(name = "id") int id) {
 		List<TaskDto> tasks = service.getTaskListByProject(id);
 		return tasks;
 	}

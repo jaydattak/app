@@ -17,7 +17,7 @@ import com.example.app.service.ParentTaskService;
 public class ParentTaskServiceImpl extends BaseService implements ParentTaskService {
 
 	private static final Logger logger = LoggerFactory.getLogger(ParentTaskServiceImpl.class);
-	
+
 	@Autowired
 	private ParentTaskDAO dao;
 
@@ -36,19 +36,6 @@ public class ParentTaskServiceImpl extends BaseService implements ParentTaskServ
 	public void addTask(ParentTaskDto taskDto) {
 		ParentTask task = mapper.map(taskDto, ParentTask.class);
 		dao.addTask(task);
-	}
-
-	@Override
-	public void deleteTask(int id) {
-		ParentTaskDto task = new ParentTaskDto();
-		task.setId(id);
-		dao.deleteTask(mapper.map(task, ParentTask.class));
-	}
-
-	@Override
-	public void updateTask(ParentTaskDto task, int id) {
-		task.setId(id);
-		dao.updateTask(mapper.map(task, ParentTask.class));
 	}
 
 	@Override
