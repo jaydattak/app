@@ -6,6 +6,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -21,6 +22,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.example.app.dto.TaskDto;
+import com.example.app.entity.ParentTask;
 import com.example.app.entity.Project;
 import com.example.app.entity.Task;
 import com.example.app.entity.User;
@@ -62,6 +64,9 @@ public class TaskDAOImplTest {
 		Task task = new Task();
 		task.setId(1);
 		task.setName("Task1");
+		task.setPriority(1);
+		task.setStartDate(new Date());
+		task.setStatus(null);
 
 		Project project = new Project();
 		project.setId(1);
@@ -73,6 +78,11 @@ public class TaskDAOImplTest {
 		user.setFirstName("FName");
 		user.setEmployeeId("1001");
 		task.setUser(user);
+
+		ParentTask parentTask = new ParentTask();
+		parentTask.setId(1);
+		parentTask.setName("ParentTask");
+		task.setParentTask(parentTask);
 
 		list.add(task);
 
@@ -111,6 +121,16 @@ public class TaskDAOImplTest {
 	@Test
 	public final void testUpdateTask() {
 		Task task = list.get(0);
+
+		when(entityManager.contains(task.getProject())).thenReturn(true);
+		when(entityManager.getReference(Project.class, task.getProject().getId())).thenReturn(task.getProject());
+
+		when(entityManager.contains(task.getUser())).thenReturn(true);
+		when(entityManager.getReference(User.class, task.getUser().getId())).thenReturn(task.getUser());
+
+		when(entityManager.contains(task.getParentTask())).thenReturn(true);
+		when(entityManager.getReference(ParentTask.class, task.getParentTask().getId()))
+				.thenReturn(task.getParentTask());
 
 		dao.updateTask(task);
 
@@ -163,6 +183,29 @@ public class TaskDAOImplTest {
 		when(query.setParameter(1, "id")).thenReturn(query);
 		when(query.getResultList()).thenReturn(list);
 		List<Task> tasks = dao.getTaskListByProjectWithSort(1, "id");
+		assertEquals(1, tasks.size());
+	}
+
+	@Test
+	public final void getTaskListByProjectWithSortCompleted() {
+		when(entityManager.createQuery("from Task  where Project_ID = ?1 and status = 'completed' order by status"))
+				.thenReturn(query);
+		when(query.setParameter(1, 1)).thenReturn(query);
+		when(query.setParameter(1, "completed")).thenReturn(query);
+		when(query.getResultList()).thenReturn(list);
+		List<Task> tasks = dao.getTaskListByProjectWithSort(1, "completed");
+		assertEquals(1, tasks.size());
+	}
+	
+		
+	@Test
+	public final void getTaskListByProjectWithSortStartDate() {
+		when(entityManager.createQuery("from Task  where Project_ID = ?1 order by startDate"))
+				.thenReturn(query);
+		when(query.setParameter(1, 1)).thenReturn(query);
+		when(query.setParameter(1, "startDate")).thenReturn(query);
+		when(query.getResultList()).thenReturn(list);
+		List<Task> tasks = dao.getTaskListByProjectWithSort(1, "startDate");
 		assertEquals(1, tasks.size());
 	}
 }

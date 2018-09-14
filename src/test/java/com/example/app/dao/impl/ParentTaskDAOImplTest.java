@@ -22,6 +22,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.example.app.dto.ParentTaskDto;
 import com.example.app.entity.ParentTask;
+import com.example.app.entity.Task;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RunWith(SpringRunner.class)
@@ -92,4 +93,14 @@ public class ParentTaskDAOImplTest {
 		verify(entityManager, times(1)).persist(task);
 	}
 
+	
+	@Test
+	public final void testSearchTasks() {
+		when(entityManager.createQuery("from ParentTask where name like ?1")).thenReturn(query);
+		when(query.setParameter(1, "%Task1%")).thenReturn(query);
+		when(query.getResultList()).thenReturn(list);
+		List<ParentTask> tasks = dao.searchTasks("Task1");
+		assertEquals(1, tasks.size());
+		assertEquals("ParentTask1", tasks.get(0).getName());
+	}
 }

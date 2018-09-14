@@ -12,6 +12,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -115,6 +116,28 @@ public class ParentTaskControllerTest {
 		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 
 		assertEquals(jsonMapper.writeValueAsString(successMesg), result.getResponse().getContentAsString());
+	}
+
+	@Test
+	public final void testSearchTask() throws Exception {
+
+		Mockito.when(service.searchTask("ParentTask")).thenReturn(list);
+
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.get(BASE_URL + "search/ParentTask")
+				.contentType(MediaType.APPLICATION_JSON_UTF8);
+
+		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+
+		assertEquals(jsonMapper.writeValueAsString(list), result.getResponse().getContentAsString());
+
+		Mockito.when(service.searchTask("ParentTask")).thenReturn(mulipleItemsList);
+
+		requestBuilder = MockMvcRequestBuilders.get(BASE_URL + "search/ParentTask")
+				.contentType(MediaType.APPLICATION_JSON_UTF8);
+
+		result = mockMvc.perform(requestBuilder).andReturn();
+
+		assertEquals(jsonMapper.writeValueAsString(mulipleItemsList), result.getResponse().getContentAsString());
 	}
 
 }

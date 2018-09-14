@@ -34,19 +34,6 @@ public class ParentTaskDAOImpl implements ParentTaskDAO {
 		entityManager.persist(task);
 	}
 
-	@Override
-	public void updateTask(ParentTask task) {
-		entityManager.merge(task);
-	}
-
-	@Override
-	public void deleteTask(ParentTask task) {
-		if (!entityManager.contains(task)) {
-			task = entityManager.getReference(ParentTask.class, task.getId());
-		}
-		entityManager.remove(task);
-	}
-
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<ParentTask> searchTasks(String searchText) {

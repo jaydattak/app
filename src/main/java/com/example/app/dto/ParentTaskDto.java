@@ -22,4 +22,20 @@ public class ParentTaskDto {
 		this.name = name;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null)
+			return false;
+		if (obj instanceof ParentTaskDto) {
+			ParentTaskDto dto = (ParentTaskDto) obj;
+			return dto.getId() == this.id;
+		} else {
+			return false;
+		}
+	}
+
+	@Override
+	public int hashCode() {
+		return this.name != null ? this.name.hashCode() : super.hashCode();
+	}
 }

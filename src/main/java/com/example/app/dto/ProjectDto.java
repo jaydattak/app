@@ -15,7 +15,7 @@ public class ProjectDto {
 	private int priority;
 
 	private UserDto manager;
-	
+
 	private int noOfTasks;
 
 	private int noOfCompletedTasks;
@@ -82,6 +82,23 @@ public class ProjectDto {
 
 	public void setNoOfCompletedTasks(int noOfCompletedTasks) {
 		this.noOfCompletedTasks = noOfCompletedTasks;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null)
+			return false;
+		if (obj instanceof ProjectDto) {
+			ProjectDto dto = (ProjectDto) obj;
+			return dto.getId() == this.id;
+		} else {
+			return false;
+		}
+	}
+
+	@Override
+	public int hashCode() {
+		return this.name != null ? this.name.hashCode() : super.hashCode();
 	}
 
 }

@@ -104,4 +104,21 @@ public class TaskDto {
 		this.isMainTask = isMainTask;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null)
+			return false;
+		if (obj instanceof TaskDto) {
+			TaskDto taskDto = (TaskDto) obj;
+			return taskDto.getId() == this.id;
+		} else {
+			return false;
+		}
+
+	}
+
+	@Override
+	public int hashCode() {
+		return this.name != null ? this.name.hashCode() : super.hashCode();
+	}
 }

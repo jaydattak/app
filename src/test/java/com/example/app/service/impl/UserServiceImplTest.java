@@ -142,10 +142,11 @@ public class UserServiceImplTest {
 		user.setId(1);
 		user.setFirstName("PR");
 		UserDto userDto = new UserDto();
+		userDto.setId(1);
 		userDto.setFirstName("PR");
 		when(mapper.map(userDto, User.class)).thenReturn(user);
 		service.deleteUser(1);
-		verify(dao, times(1)).addUser(user);
+		verify(dao, times(1)).deleteUser(user);
 	}
 
 	@Test

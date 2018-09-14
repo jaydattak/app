@@ -6,6 +6,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -64,6 +65,8 @@ public class ProjectDAOImplTest {
 		Project project = new Project();
 		project.setId(1);
 		project.setName("Project1");
+		project.setPriority(1);
+		project.setStartDate(new Date());
 
 		Task task = new Task();
 		task.setId(1);

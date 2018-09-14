@@ -42,4 +42,22 @@ public class UserDto {
 		this.employeeId = employeeId;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null)
+			return false;
+		if (obj instanceof UserDto) {
+			UserDto dto = (UserDto) obj;
+			return dto.getId() == this.id;
+		} else {
+			return false;
+		}
+
+	}
+
+	@Override
+	public int hashCode() {
+		return this.firstName != null ? this.firstName.hashCode() : super.hashCode();
+	}
+
 }

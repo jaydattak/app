@@ -120,18 +120,18 @@ public class TaskControllerTest {
 
 	@Test
 	public final void testSearchTask() throws Exception {
-		Mockito.when(service.searchTask("ParentProject1")).thenReturn(list);
+		Mockito.when(service.searchTask("Task1")).thenReturn(list);
 
-		RequestBuilder requestBuilder = MockMvcRequestBuilders.get(BASE_URL + "search/ParentProject1")
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.get(BASE_URL + "search/Task1")
 				.contentType(MediaType.APPLICATION_JSON_UTF8);
 
 		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 
 		assertEquals(jsonMapper.writeValueAsString(list), result.getResponse().getContentAsString());
 
-		Mockito.when(service.searchTask("ParentProject")).thenReturn(mulipleItemsList);
+		Mockito.when(service.searchTask("Task")).thenReturn(mulipleItemsList);
 
-		requestBuilder = MockMvcRequestBuilders.get(BASE_URL + "search/ParentProject")
+		requestBuilder = MockMvcRequestBuilders.get(BASE_URL + "search/Task")
 				.contentType(MediaType.APPLICATION_JSON_UTF8);
 
 		result = mockMvc.perform(requestBuilder).andReturn();

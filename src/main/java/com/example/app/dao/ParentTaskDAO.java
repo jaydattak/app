@@ -9,10 +9,6 @@ public interface ParentTaskDAO {
 
 	public void addTask(ParentTask task);
 
-	public void deleteTask(ParentTask map);
-
-	public void updateTask(ParentTask map);
-
 	public List<ParentTask> searchTasks(String searchText);
 
 }
