@@ -25,6 +25,7 @@ public class TaskServiceImpl extends BaseService implements TaskService {
 
 	@Override
 	public List<TaskDto> getTaskList() {
+		logger.debug("getTaskList");
 		TaskDto task = null;
 		List<TaskDto> list = new ArrayList<TaskDto>();
 		for (Task tempObj : dao.getTaskList()) {
@@ -37,7 +38,7 @@ public class TaskServiceImpl extends BaseService implements TaskService {
 	@Override
 	public void addTask(TaskDto taskDto) {
 		Task task = mapper.map(taskDto, Task.class);
-		if (!taskDto.isMainTask()) {
+		if (taskDto.isMainTask()) {
 			task.setParentTask(null);
 		}
 		dao.addTask(task);
@@ -54,7 +55,7 @@ public class TaskServiceImpl extends BaseService implements TaskService {
 	@Override
 	public void updateTask(TaskDto task, int id) {
 		task.setId(id);
-		if (task.getParentTask().getId() == 0) {
+		if (task.getParentTask() != null && task.getParentTask().getId() == 0) {
 			task.setParentTask(null);
 		}
 		dao.updateTask(mapper.map(task, Task.class));
