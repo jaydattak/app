@@ -6,7 +6,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -64,9 +64,10 @@ public class TaskDAOImplTest {
 		Task task = new Task();
 		task.setId(1);
 		task.setName("Task1");
-		task.setPriority(1);
-		task.setStartDate(new Date());
-		task.setStatus(null);
+		task.setPriority(15);
+		task.setStartDate(getToday());
+		task.setEndDate(getToday());
+		task.setStatus("STATUS");
 
 		Project project = new Project();
 		project.setId(1);
@@ -95,12 +96,22 @@ public class TaskDAOImplTest {
 		mulipleItemsList.add(task);
 	}
 
+	private java.util.Date getToday() {
+		Calendar calender = Calendar.getInstance();
+		calender.set(2018, 5, 6, 0, 0, 0);
+		return calender.getTime();
+	}
+
 	@Test
 	public final void testGetTaskList() {
 		when(entityManager.createQuery("from Task")).thenReturn(query);
 		when(query.getResultList()).thenReturn(list);
 		List<Task> tasks = dao.getTaskList();
 		assertEquals(1, tasks.size());
+		assertEquals(15, tasks.get(0).getPriority());
+		assertEquals(0, tasks.get(0).getStartDate().compareTo(getToday()));
+		assertEquals(0, tasks.get(0).getEndDate().compareTo(getToday()));
+		assertEquals("STATUS", tasks.get(0).getStatus());
 	}
 
 	@Test
@@ -148,7 +159,7 @@ public class TaskDAOImplTest {
 
 		verify(entityManager, times(1)).remove(task);
 	}
-	
+
 	@Test
 	public final void testDeleteTaskWithoutReference() {
 		Task task = list.get(0);
@@ -160,7 +171,6 @@ public class TaskDAOImplTest {
 
 		verify(entityManager, times(1)).remove(task);
 	}
-
 
 	@Test
 	public final void testSearchTasks() {
@@ -179,7 +189,7 @@ public class TaskDAOImplTest {
 		List<Task> tasks = dao.sortTasks("id");
 		assertEquals(1, tasks.size());
 	}
-	
+
 	@Test
 	public final void testSortTasksByCompleted() {
 		when(entityManager.createQuery("from Task where status = 'completed' order by status")).thenReturn(query);
@@ -187,7 +197,6 @@ public class TaskDAOImplTest {
 		List<Task> tasks = dao.sortTasks("completed");
 		assertEquals(1, tasks.size());
 	}
-	
 
 	@Test
 	public final void testSortTasksByPriority() {
@@ -226,12 +235,10 @@ public class TaskDAOImplTest {
 		List<Task> tasks = dao.getTaskListByProjectWithSort(1, "completed");
 		assertEquals(1, tasks.size());
 	}
-	
-		
+
 	@Test
 	public final void getTaskListByProjectWithSortStartDate() {
-		when(entityManager.createQuery("from Task  where Project_ID = ?1 order by startDate"))
-				.thenReturn(query);
+		when(entityManager.createQuery("from Task  where Project_ID = ?1 order by startDate")).thenReturn(query);
 		when(query.setParameter(1, 1)).thenReturn(query);
 		when(query.setParameter(1, "startDate")).thenReturn(query);
 		when(query.getResultList()).thenReturn(list);

@@ -6,7 +6,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.example.app.entity.Project;
-import com.example.app.entity.Task;
 
 public class ProjectDtoTest {
 
@@ -20,6 +19,11 @@ public class ProjectDtoTest {
 		obj.setId(1);
 		obj.setName("Project");
 		assertEquals("Project".hashCode(), obj.hashCode());
+		
+		obj = new ProjectDto();
+		obj.setId(1);
+		obj.setName(null);
+		assertEquals(obj.hashCode(), obj.hashCode());
 	}
 
 	@Test

@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import com.example.app.dao.ProjectDAO;
 import com.example.app.dto.ProjectDto;
 import com.example.app.entity.Project;
-import com.example.app.exception.UserException;
 import com.example.app.service.ProjectService;
 
 @Service

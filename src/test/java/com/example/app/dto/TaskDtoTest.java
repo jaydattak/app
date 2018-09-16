@@ -1,12 +1,11 @@
 package com.example.app.dto;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import com.example.app.entity.Task;
-import com.example.app.entity.User;
 
 public class TaskDtoTest {
 
@@ -20,6 +19,12 @@ public class TaskDtoTest {
 		obj.setId(1);
 		obj.setName("Task");
 		assertEquals("Task".hashCode(), obj.hashCode());
+
+		obj = new TaskDto();
+		obj.setId(1);
+		obj.setName(null);
+		assertEquals(obj.hashCode(), obj.hashCode());
+
 	}
 
 	@Test

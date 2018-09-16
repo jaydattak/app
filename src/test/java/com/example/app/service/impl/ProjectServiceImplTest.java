@@ -65,7 +65,7 @@ public class ProjectServiceImplTest {
 		Set<Task> tasks = new HashSet<Task>();
 		tasks.add(task);
 		project.setTasks(tasks);
-		
+
 		list.add(project);
 
 		mulipleItemsList.add(project);
@@ -76,11 +76,11 @@ public class ProjectServiceImplTest {
 
 		tasks = new HashSet<Task>();
 		tasks.add(task);
-		
+
 		task = new Task();
 		task.setId(2);
 		task.setName("T2");
-		
+
 		tasks.add(task);
 		project.setTasks(tasks);
 
@@ -106,10 +106,10 @@ public class ProjectServiceImplTest {
 	@Test
 	public final void testGetProjectList() {
 		when(dao.getProjectList()).thenReturn(list);
-		
+
 		Project project = list.get(0);
 		ProjectDto projectDto = dtoList.get(0);
-		
+
 		when(mapper.map(project, ProjectDto.class)).thenReturn(projectDto);
 
 		List<ProjectDto> projects = service.getProjectList();
@@ -122,27 +122,27 @@ public class ProjectServiceImplTest {
 	@Test
 	public final void testGetProjectListWithMultipleItems() {
 		when(dao.getProjectList()).thenReturn(mulipleItemsList);
-		
+
 		Project project = mulipleItemsList.get(0);
 		ProjectDto projectDto = dtoMulipleItemsList.get(0);
-		
+
 		when(mapper.map(project, ProjectDto.class)).thenReturn(projectDto);
-		
+
 		project = mulipleItemsList.get(1);
 		projectDto = dtoMulipleItemsList.get(1);
-		
+
 		when(mapper.map(project, ProjectDto.class)).thenReturn(projectDto);
-		
+
 		List<ProjectDto> projects = service.getProjectList();
 
 		assertEquals(2, projects.size());
 
 		assertEquals(1, projects.get(0).getId());
-		assertEquals("ParentProject1",  projects.get(0).getName());
+		assertEquals("ParentProject1", projects.get(0).getName());
 		assertEquals(1, projects.get(0).getNoOfTasks());
 
-		assertEquals(2,  projects.get(1).getId());
-		assertEquals("ParentProject2",  projects.get(1).getName());
+		assertEquals(2, projects.get(1).getId());
+		assertEquals("ParentProject2", projects.get(1).getName());
 		assertEquals(2, projects.get(1).getNoOfTasks());
 
 	}
@@ -161,26 +161,20 @@ public class ProjectServiceImplTest {
 
 	@Test
 	public final void testDeleteProject() {
-		Project project = new Project();
-		project.setId(1);
-		project.setName("PR");
-		ProjectDto projectDto = new ProjectDto();
-		projectDto.setName("PR");
+		Project project = list.get(0);
+		ProjectDto projectDto = dtoList.get(0);
 		when(mapper.map(projectDto, Project.class)).thenReturn(project);
-		service.addProject(projectDto);
-		verify(dao, times(1)).addProject(project);
+		service.deleteProject(1);
+		verify(dao, times(1)).deleteProject(project);
 	}
 
 	@Test
 	public final void testUpdateProject() {
-		Project project = new Project();
-		project.setId(1);
-		project.setName("PR");
-		ProjectDto projectDto = new ProjectDto();
-		projectDto.setName("PR");
+		Project project = list.get(0);
+		ProjectDto projectDto = dtoList.get(0);
 		when(mapper.map(projectDto, Project.class)).thenReturn(project);
-		service.addProject(projectDto);
-		verify(dao, times(1)).addProject(project);
+		service.updateProject(projectDto, 1);
+		verify(dao, times(1)).updateProject(project);
 	}
 
 	@Test
@@ -188,7 +182,7 @@ public class ProjectServiceImplTest {
 		when(dao.searchProjects("1")).thenReturn(list);
 		Project project = list.get(0);
 		ProjectDto projectDto = dtoList.get(0);
-		
+
 		when(mapper.map(project, ProjectDto.class)).thenReturn(projectDto);
 
 		List<ProjectDto> projects = service.searchProject("1");
@@ -204,9 +198,9 @@ public class ProjectServiceImplTest {
 		ProjectDto projectDto = dtoList.get(0);
 		Project project = list.get(0);
 		when(mapper.map(project, ProjectDto.class)).thenReturn(projectDto);
-		
+
 		List<ProjectDto> projects = service.sortProjects("name");
-		
+
 		assertEquals(1, projects.size());
 		assertEquals(1, project.getId());
 		assertEquals("ParentProject1", project.getName());

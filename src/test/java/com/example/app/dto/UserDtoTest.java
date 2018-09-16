@@ -19,6 +19,11 @@ public class UserDtoTest {
 		obj.setId(1);
 		obj.setFirstName("User");
 		assertEquals("User".hashCode(), obj.hashCode());
+		
+		obj = new UserDto();
+		obj.setId(1);
+		obj.setFirstName(null);
+		assertEquals(obj.hashCode(), obj.hashCode());
 	}
 
 	@Test

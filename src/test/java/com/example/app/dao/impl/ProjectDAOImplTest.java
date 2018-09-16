@@ -6,7 +6,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -61,12 +61,19 @@ public class ProjectDAOImplTest {
 		populateList();
 	}
 
+	private java.util.Date getToday() {
+		Calendar calender = Calendar.getInstance();
+		calender.set(2018, 5, 6, 0 , 0, 0);
+		return calender.getTime();
+	}
+	
 	private void populateList() {
 		Project project = new Project();
 		project.setId(1);
 		project.setName("Project1");
 		project.setPriority(1);
-		project.setStartDate(new Date());
+		project.setStartDate(getToday());
+		project.setEndDate(getToday());
 
 		Task task = new Task();
 		task.setId(1);
@@ -103,6 +110,9 @@ public class ProjectDAOImplTest {
 		when(query.getResultList()).thenReturn(list);
 		List<Project> projects = dao.getProjectList();
 		assertEquals(1, projects.size());
+		assertEquals(1, projects.get(0).getPriority());
+		assertEquals(0,projects.get(0).getStartDate().compareTo(getToday()));
+		assertEquals(0, projects.get(0).getEndDate().compareTo(getToday()));
 	}
 
 	@Test

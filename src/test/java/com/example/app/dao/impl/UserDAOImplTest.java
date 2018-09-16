@@ -61,6 +61,7 @@ public class UserDAOImplTest {
 		user.setId(1);
 		user.setFirstName("User1");
 		user.setLastName("L1");
+		user.setEmployeeId("1001");
 
 		list.add(user);
 
@@ -80,6 +81,10 @@ public class UserDAOImplTest {
 		when(query.getResultList()).thenReturn(list);
 		List<User> users = dao.getUserList();
 		assertEquals(1, users.size());
+		assertEquals("User1", users.get(0).getFirstName());
+		assertEquals("L1", users.get(0).getLastName());
+		assertEquals("1001", users.get(0).getEmployeeId());
+		
 	}
 
 	@Test

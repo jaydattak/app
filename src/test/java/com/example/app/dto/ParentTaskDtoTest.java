@@ -6,7 +6,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.example.app.entity.ParentTask;
-import com.example.app.entity.Project;
 
 public class ParentTaskDtoTest {
 
@@ -20,6 +19,11 @@ public class ParentTaskDtoTest {
 		obj.setId(1);
 		obj.setName("ParentTask");
 		assertEquals("ParentTask".hashCode(), obj.hashCode());
+		
+		obj = new ParentTaskDto();
+		obj.setId(1);
+		obj.setName(null);
+		assertEquals(obj.hashCode(), obj.hashCode());
 	}
 
 	@Test

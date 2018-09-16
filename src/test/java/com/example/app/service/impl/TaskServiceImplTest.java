@@ -5,7 +5,9 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.junit.Before;
@@ -56,11 +58,11 @@ public class TaskServiceImplTest {
 		Task task = new Task();
 		task.setId(1);
 		task.setName("Task1");
-		
+
 		ParentTask parentTask = new ParentTask();
 		parentTask.setId(1);
 		parentTask.setName("ParentTask1");
-		
+
 		task.setParentTask(parentTask);
 
 		list.add(task);
@@ -83,11 +85,11 @@ public class TaskServiceImplTest {
 		TaskDto taskDto = new TaskDto();
 		taskDto.setId(1);
 		taskDto.setName("Task1");
-		
+
 		ParentTaskDto parentTaskDto = new ParentTaskDto();
 		parentTaskDto.setId(1);
 		parentTaskDto.setName("ParentTask1");
-		
+
 		taskDto.setParentTask(parentTaskDto);
 
 		dtoList.add(taskDto);
@@ -163,6 +165,16 @@ public class TaskServiceImplTest {
 	public final void testUpdateTask() {
 		Task task = list.get(0);
 		TaskDto taskDto = dtoList.get(0);
+		when(mapper.map(taskDto, Task.class)).thenReturn(task);
+		service.updateTask(taskDto, taskDto.getId());
+		verify(dao, times(1)).updateTask(task);
+	}
+	
+	@Test
+	public final void testUpdateTaskWithParentTask() {
+		Task task = mulipleItemsList.get(1);
+		TaskDto taskDto = dtoMulipleItemsList.get(1);
+		taskDto.setParentTask(new ParentTaskDto());
 		when(mapper.map(taskDto, Task.class)).thenReturn(task);
 		service.updateTask(taskDto, taskDto.getId());
 		verify(dao, times(1)).updateTask(task);
