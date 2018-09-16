@@ -37,6 +37,7 @@ public class ParentTaskController extends BaseController {
 		try {
 			service.addTask(task);
 		} catch (Exception e) {
+			logger.debug(e.getMessage());
 			return new ResponseMessage(false, getAppMessage(ConstantsIf.SAVE_ERROR), e);
 		}
 		return new ResponseMessage(true, getAppMessage(ConstantsIf.SAVE_SUCCESS));

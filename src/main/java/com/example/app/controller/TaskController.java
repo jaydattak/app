@@ -27,6 +27,7 @@ public class TaskController extends BaseController {
 
 	@RequestMapping(path = "/list",  method = RequestMethod.GET)
 	public List<TaskDto> getTaskList() {
+		logger.debug("getTaskList");
 		List<TaskDto> tasks = service.getTaskList();
 		return tasks;
 	}
@@ -36,6 +37,7 @@ public class TaskController extends BaseController {
 		try {
 			service.addTask(task);
 		} catch (Exception e) {
+			logger.debug(e.getMessage());
 			return new ResponseMessage(false, getAppMessage(ConstantsIf.SAVE_ERROR), e);
 		}
 		return new ResponseMessage(true, getAppMessage(ConstantsIf.SAVE_SUCCESS));
@@ -46,6 +48,7 @@ public class TaskController extends BaseController {
 		try {
 			service.deleteTask(id);
 		} catch (Exception e) {
+			logger.debug(e.getMessage());
 			return new ResponseMessage(false, getAppMessage(ConstantsIf.DELETE_ERROR), e);
 		}
 		return new ResponseMessage(true, getAppMessage(ConstantsIf.DELETE_SUCCESS));
@@ -56,6 +59,7 @@ public class TaskController extends BaseController {
 		try {
 			service.updateTask(project, id);
 		} catch (Exception e) {
+			logger.debug(e.getMessage());
 			return new ResponseMessage(false, getAppMessage(ConstantsIf.UPDATE_ERROR), e);
 		}
 		return new ResponseMessage(true, getAppMessage(ConstantsIf.UPDATE_SUCCESS));

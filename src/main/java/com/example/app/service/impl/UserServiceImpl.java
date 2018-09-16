@@ -23,11 +23,12 @@ public class UserServiceImpl extends BaseService implements UserService {
 
 	@Override
 	public List<UserDto> getUserList() {
-		List<UserDto> users = new ArrayList<UserDto>();
+		List<UserDto> list = new ArrayList<UserDto>();
 		for (User user : dao.getUserList()) {
-			users.add(mapper.map(user, UserDto.class));
+			list.add(mapper.map(user, UserDto.class));
+			logger.debug("List Size : " + list.size());
 		}
-		return users;
+		return list;
 	}
 
 	@Override
@@ -53,20 +54,22 @@ public class UserServiceImpl extends BaseService implements UserService {
 
 	@Override
 	public List<UserDto> searchUser(String searchText) {
-		List<UserDto> users = new ArrayList<UserDto>();
+		List<UserDto> list = new ArrayList<UserDto>();
 		for (User user : dao.searchUsers(searchText)) {
-			users.add(mapper.map(user, UserDto.class));
+			list.add(mapper.map(user, UserDto.class));
+			logger.debug("List Size : " + list.size());
 		}
-		return users;
+		return list;
 	}
 
 	@Override
 	public List<UserDto> sortUsers(String flag) {
-		List<UserDto> users = new ArrayList<UserDto>();
+		List<UserDto> list = new ArrayList<UserDto>();
 		for (User user : dao.sortUsers(flag)) {
-			users.add(mapper.map(user, UserDto.class));
+			list.add(mapper.map(user, UserDto.class));
+			logger.debug("List Size : " + list.size());
 		}
-		return users;
+		return list;
 	}
 
 }

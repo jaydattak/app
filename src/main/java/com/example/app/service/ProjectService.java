@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.example.app.dto.ProjectDto;
-import com.example.app.exception.UserException;
 
 @Service
 public interface ProjectService {

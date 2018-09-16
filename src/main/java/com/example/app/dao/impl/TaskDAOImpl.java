@@ -15,7 +15,6 @@ import com.example.app.entity.ParentTask;
 import com.example.app.entity.Project;
 import com.example.app.entity.Task;
 import com.example.app.entity.User;
-import com.example.app.entity.Task;
 
 @Transactional
 @Repository
@@ -73,6 +72,7 @@ public class TaskDAOImpl implements TaskDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Task> searchTasks(String searchText) {
+		logger.debug("searchText : " + searchText);
 		List<Task> tasks = entityManager.createQuery("from Task where name like ?1")
 				.setParameter(1, "%" + searchText + "%").getResultList();
 		return tasks;
@@ -81,6 +81,7 @@ public class TaskDAOImpl implements TaskDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Task> sortTasks(String sortFlag) {
+		logger.debug("sortFlag : " + sortFlag);
 		String query = "order by ";
 		if ("id".equals(sortFlag)) {
 			query += "employeeId";
@@ -104,6 +105,7 @@ public class TaskDAOImpl implements TaskDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Task> getTaskListByProjectWithSort(int id, String sortBy) {
+		logger.debug("sortBy : " + sortBy + " | id : " + id);
 		String query = " where Project_ID = ?1";
 		if ("id".equals(sortBy)) {
 			query += " order by employeeId";

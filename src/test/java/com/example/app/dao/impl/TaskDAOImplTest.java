@@ -5,6 +5,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -99,7 +101,17 @@ public class TaskDAOImplTest {
 	private java.util.Date getToday() {
 		Calendar calender = Calendar.getInstance();
 		calender.set(2018, 5, 6, 0, 0, 0);
-		return calender.getTime();
+		java.util.Date date = calender.getTime();
+		try {
+			SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+			String str = formatter.format(calender.getTime());
+			date = formatter.parse(str);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		return date;
+
 	}
 
 	@Test
@@ -109,7 +121,7 @@ public class TaskDAOImplTest {
 		List<Task> tasks = dao.getTaskList();
 		assertEquals(1, tasks.size());
 		assertEquals(15, tasks.get(0).getPriority());
-		assertEquals(0, tasks.get(0).getStartDate().compareTo(getToday()));
+		assertEquals(0,tasks.get(0).getStartDate().compareTo(getToday()));
 		assertEquals(0, tasks.get(0).getEndDate().compareTo(getToday()));
 		assertEquals("STATUS", tasks.get(0).getStatus());
 	}

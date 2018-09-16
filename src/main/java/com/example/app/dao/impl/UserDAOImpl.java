@@ -41,7 +41,7 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public void deleteUser(User user) {
-		if(!entityManager.contains(user)) {
+		if (!entityManager.contains(user)) {
 			user = entityManager.getReference(User.class, user.getId());
 		}
 		entityManager.remove(user);
@@ -50,16 +50,16 @@ public class UserDAOImpl implements UserDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<User> searchUsers(String searchText) {
+		logger.debug("searchText : " + searchText);
 		List<User> users = entityManager.createQuery("from User where firstName like ?1 or lastName like ?2")
-				.setParameter(1, "%" + searchText + "%")
-				.setParameter(2, "%" + searchText + "%").getResultList();
+				.setParameter(1, "%" + searchText + "%").setParameter(2, "%" + searchText + "%").getResultList();
 		return users;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<User> sortUsers(String sortFlag) {
-
+		logger.debug("sortFlag : " + sortFlag);
 		if ("id".equals(sortFlag)) {
 			sortFlag = "employeeId";
 		}

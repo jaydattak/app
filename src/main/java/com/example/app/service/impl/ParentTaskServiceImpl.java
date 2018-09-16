@@ -28,6 +28,7 @@ public class ParentTaskServiceImpl extends BaseService implements ParentTaskServ
 		for (ParentTask tempObj : dao.getTaskList()) {
 			task = mapper.map(tempObj, ParentTaskDto.class);
 			list.add(task);
+			logger.debug("List Size : " + list.size());
 		}
 		return list;
 	}
@@ -43,6 +44,7 @@ public class ParentTaskServiceImpl extends BaseService implements ParentTaskServ
 		List<ParentTaskDto> list = new ArrayList<ParentTaskDto>();
 		for (ParentTask obj : dao.searchTasks(searchText)) {
 			list.add(mapper.map(obj, ParentTaskDto.class));
+			logger.debug("List Size : " + list.size());
 		}
 		return list;
 	}

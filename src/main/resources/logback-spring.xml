@@ -6,9 +6,8 @@
 		<file>${LOGS}/app.log</file>
 		<encoder
 			class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-			<Pattern>%d %p %C{1.} [%t] %m%n</Pattern>
+			<Pattern>%d %p %C{1.} %m%n</Pattern>
 		</encoder>
-
 		<rollingPolicy
 			class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<!-- rollover daily and when the file reaches 10 MegaBytes -->

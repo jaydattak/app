@@ -22,7 +22,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.example.app.dto.ParentTaskDto;
 import com.example.app.entity.ParentTask;
-import com.example.app.entity.Task;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RunWith(SpringRunner.class)

@@ -19,7 +19,7 @@ public class UserDtoTest {
 		obj.setId(1);
 		obj.setFirstName("User");
 		assertEquals("User".hashCode(), obj.hashCode());
-		
+
 		obj = new UserDto();
 		obj.setId(1);
 		obj.setFirstName(null);
@@ -31,15 +31,15 @@ public class UserDtoTest {
 		UserDto obj = new UserDto();
 		obj.setId(1);
 		obj.setFirstName("User");
-		
+
 		UserDto obj1 = new UserDto();
 		obj1.setId(1);
 		obj1.setFirstName("User");
 		assertEquals(true, obj.equals(obj1));
-		
+
 		UserDto nullObj = null;
 		assertEquals(false, obj.equals(nullObj));
-		
+
 		User otherObj = new User();
 		assertEquals(false, obj.equals(otherObj));
 	}

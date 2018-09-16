@@ -36,6 +36,7 @@ public class UserController extends BaseController {
 		try {
 			service.addUser(user);
 		} catch (Exception e) {
+			logger.debug(e.getMessage());
 			return new ResponseMessage(false, getAppMessage(ConstantsIf.SAVE_ERROR), e);
 		}
 		return new ResponseMessage(true, getAppMessage(ConstantsIf.SAVE_SUCCESS));
@@ -46,6 +47,7 @@ public class UserController extends BaseController {
 		try {
 			service.deleteUser(id);
 		} catch (Exception e) {
+			logger.debug(e.getMessage());
 			return new ResponseMessage(false, getAppMessage(ConstantsIf.DELETE_ERROR), e);
 		}
 		return new ResponseMessage(true, getAppMessage(ConstantsIf.DELETE_SUCCESS));
@@ -56,6 +58,7 @@ public class UserController extends BaseController {
 		try {
 			service.updateUser(user, id);
 		} catch (Exception e) {
+			logger.debug(e.getMessage());
 			return new ResponseMessage(false, getAppMessage(ConstantsIf.UPDATE_ERROR), e);
 		}
 		return new ResponseMessage(true, getAppMessage(ConstantsIf.UPDATE_SUCCESS));

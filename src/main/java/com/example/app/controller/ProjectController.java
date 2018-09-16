@@ -36,6 +36,7 @@ public class ProjectController extends BaseController {
 		try {
 			service.addProject(project);
 		} catch (Exception e) {
+			logger.debug(e.getMessage());
 			return new ResponseMessage(false, getAppMessage(ConstantsIf.SAVE_ERROR), e);
 		}
 		return new ResponseMessage(true, getAppMessage(ConstantsIf.SAVE_SUCCESS));
@@ -46,6 +47,7 @@ public class ProjectController extends BaseController {
 		try {
 			service.deleteProject(id);
 		} catch (Exception e) {
+			logger.debug(e.getMessage());
 			return new ResponseMessage(false, getAppMessage(ConstantsIf.DELETE_ERROR), e);
 		}
 		return new ResponseMessage(true, getAppMessage(ConstantsIf.DELETE_SUCCESS));
@@ -56,6 +58,7 @@ public class ProjectController extends BaseController {
 		try {
 			service.updateProject(project, id);
 		} catch (Exception e) {
+			logger.debug(e.getMessage());
 			return new ResponseMessage(false, getAppMessage(ConstantsIf.UPDATE_ERROR), e);
 		}
 		return new ResponseMessage(true, getAppMessage(ConstantsIf.UPDATE_SUCCESS));

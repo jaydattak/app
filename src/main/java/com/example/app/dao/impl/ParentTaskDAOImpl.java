@@ -37,6 +37,7 @@ public class ParentTaskDAOImpl implements ParentTaskDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<ParentTask> searchTasks(String searchText) {
+		logger.debug("SearchText : " + searchText);
 		List<ParentTask> tasks = entityManager.createQuery("from ParentTask where name like ?1")
 				.setParameter(1, "%" + searchText + "%").getResultList();
 		return tasks;

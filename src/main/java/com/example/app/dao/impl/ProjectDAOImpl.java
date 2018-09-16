@@ -1,22 +1,18 @@
 package com.example.app.dao.impl;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
-import org.omg.CORBA.portable.ApplicationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Repository;
 
 import com.example.app.dao.ProjectDAO;
 import com.example.app.entity.Project;
 import com.example.app.entity.User;
-import com.example.app.exception.UserException;
 
 @Transactional
 @Repository
@@ -59,6 +55,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Project> searchProjects(String searchText) {
+		logger.debug("SearchText : " + searchText);
 		List<Project> projects = entityManager.createQuery("from Project where name like ?1")
 				.setParameter(1, "%" + searchText + "%").getResultList();
 		return projects;
@@ -67,6 +64,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Project> sortProjects(String sortFlag) {
+		logger.debug("sortFlag : " + sortFlag);
 		if ("id".equals(sortFlag)) {
 			sortFlag = "employeeId";
 		}

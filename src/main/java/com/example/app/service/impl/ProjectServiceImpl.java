@@ -29,6 +29,7 @@ public class ProjectServiceImpl extends BaseService implements ProjectService {
 			project = mapper.map(obj, ProjectDto.class);
 			project.setNoOfTasks(obj.getTasks().size());
 			list.add(project);
+			logger.debug("List Size : " + list.size());
 		}
 		return list;
 	}
@@ -56,6 +57,7 @@ public class ProjectServiceImpl extends BaseService implements ProjectService {
 		List<ProjectDto> list = new ArrayList<ProjectDto>();
 		for (Project obj : dao.searchProjects(searchText)) {
 			list.add(mapper.map(obj, ProjectDto.class));
+			logger.debug("List Size : " + list.size());
 		}
 		return list;
 	}
@@ -65,6 +67,7 @@ public class ProjectServiceImpl extends BaseService implements ProjectService {
 		List<ProjectDto> list = new ArrayList<ProjectDto>();
 		for (Project obj : dao.sortProjects(flag)) {
 			list.add(mapper.map(obj, ProjectDto.class));
+			logger.debug("List Size : " + list.size());
 		}
 		return list;
 	}

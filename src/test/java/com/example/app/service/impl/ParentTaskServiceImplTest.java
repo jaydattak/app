@@ -18,9 +18,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.example.app.dao.ParentTaskDAO;
 import com.example.app.dto.ParentTaskDto;
-import com.example.app.dto.TaskDto;
 import com.example.app.entity.ParentTask;
-import com.example.app.entity.Task;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RunWith(SpringJUnit4ClassRunner.class)
