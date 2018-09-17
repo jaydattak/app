@@ -1,6 +1,6 @@
 package com.example.app.dto;
 
-import org.springframework.dao.DataIntegrityViolationException;
+import com.example.app.exception.UserException;
 
 public class ResponseMessage {
 
@@ -12,19 +12,17 @@ public class ResponseMessage {
 		this.status = status;
 		this.message = message;
 	}
-	
+
 	public ResponseMessage(boolean status, String message, String reason) {
 		this.status = status;
 		this.message = message;
 		this.reason = reason;
 	}
-	
-	public ResponseMessage(boolean status, String message, Exception excp) {
+
+	public ResponseMessage(boolean status, String message, UserException excp) {
 		this.status = status;
 		this.message = message;
-		if(excp instanceof DataIntegrityViolationException) {
-			this.reason = "Incorrect data for save or update";
-		}
+		this.reason = excp.getReason();
 	}
 
 	public boolean isStatus() {

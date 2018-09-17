@@ -6,6 +6,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.dao.DataIntegrityViolationException;
 
+import com.example.app.exception.UserException;
+
 public class ResponseMessageTest {
 
 	@Before
@@ -21,7 +23,7 @@ public class ResponseMessageTest {
 		res = new ResponseMessage(false, "RESPONSE");
 		assertEquals("RESPONSE", res.getMessage());
 		assertEquals(false, res.isStatus());
-		
+
 		res = new ResponseMessage(true, "RESPONSE");
 		res.setStatus(false);
 		res.setMessage("MESSAGE");
@@ -41,11 +43,12 @@ public class ResponseMessageTest {
 
 	@Test
 	public final void testResponseMessageBooleanStringException() {
-		ResponseMessage res = new ResponseMessage(true, "RESPONSE",
-				new DataIntegrityViolationException("Incorrect Data"));
+		UserException ex = new UserException("Incorrect Data");
+		ex.setReason("Incorrect Data");
+		ResponseMessage res = new ResponseMessage(true, "RESPONSE", ex);
 		assertEquals("RESPONSE", res.getMessage());
 		assertEquals(true, res.isStatus());
-		assertEquals("Incorrect data for save or update", res.getReason());
+		assertEquals("Incorrect Data", res.getReason());
 	}
 
 }
