@@ -8,4 +8,5 @@ public interface ConstantsIf {
 	String DELETE_ERROR = "record.delete.error";
 	String UPDATE_SUCCESS = "record.update.success";
 	String UPDATE_ERROR = "record.update.error";
+	String EXCEPTION = "Exception: ";
 }

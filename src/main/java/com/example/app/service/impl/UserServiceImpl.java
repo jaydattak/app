@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.example.app.dao.UserDAO;
 import com.example.app.dto.UserDto;
 import com.example.app.entity.User;
+import com.example.app.exception.UserException;
 import com.example.app.service.UserService;
 
 @Service
@@ -32,24 +33,36 @@ public class UserServiceImpl extends BaseService implements UserService {
 	}
 
 	@Override
-	public void addUser(UserDto userdto) {
-		User user = mapper.map(userdto, User.class);
-		dao.addUser(user);
+	public void addUser(UserDto userdto) throws UserException {
+		try {
+			User user = mapper.map(userdto, User.class);
+			dao.addUser(user);
+		} catch (Exception e) {
+			throw new UserException(e.getMessage(), e);
+		}
 	}
 
 	@Override
-	public void deleteUser(int id) {
-		UserDto userdto = new UserDto();
-		userdto.setId(id);
-		User user = mapper.map(userdto, User.class);
-		dao.deleteUser(user);
+	public void deleteUser(int id) throws UserException {
+		try {
+			UserDto userdto = new UserDto();
+			userdto.setId(id);
+			User user = mapper.map(userdto, User.class);
+			dao.deleteUser(user);
+		} catch (Exception e) {
+			throw new UserException(e.getMessage(), e);
+		}
 	}
 
 	@Override
-	public void updateUser(UserDto userdto, int id) {
-		userdto.setId(id);
-		User user = mapper.map(userdto, User.class);
-		dao.updateUser(user);
+	public void updateUser(UserDto userdto, int id) throws UserException {
+		try {
+			userdto.setId(id);
+			User user = mapper.map(userdto, User.class);
+			dao.updateUser(user);
+		} catch (Exception e) {
+			throw new UserException(e.getMessage(), e);
+		}
 	}
 
 	@Override

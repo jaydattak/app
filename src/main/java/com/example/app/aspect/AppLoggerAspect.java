@@ -18,7 +18,6 @@ public class AppLoggerAspect {
 	@Before("execution( * com.example.app..*.*(..))")
 	public void before(JoinPoint joinpoint) {
 		Signature sign = joinpoint.getSignature();
-		System.out.println(sign.getDeclaringTypeName() + " : " + sign.getName() + " : Started");
 		logger.info(sign.getDeclaringTypeName() + " : " + sign.getName() + " : Started");
 	}
 

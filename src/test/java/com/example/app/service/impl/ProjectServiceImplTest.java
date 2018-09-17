@@ -1,6 +1,7 @@
 package com.example.app.service.impl;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -22,6 +23,7 @@ import com.example.app.dao.ProjectDAO;
 import com.example.app.dto.ProjectDto;
 import com.example.app.entity.Project;
 import com.example.app.entity.Task;
+import com.example.app.exception.UserException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -148,7 +150,7 @@ public class ProjectServiceImplTest {
 	}
 
 	@Test
-	public final void testAddProject() {
+	public final void testAddProject() throws UserException {
 		Project project = new Project();
 		project.setId(1);
 		project.setName("PR");
@@ -159,8 +161,17 @@ public class ProjectServiceImplTest {
 		verify(dao, times(1)).addProject(project);
 	}
 
+	@Test(expected = UserException.class)
+	public final void testAddProjectWithException() throws UserException {
+		Project obj = list.get(0);
+		ProjectDto dto = dtoList.get(0);
+		doThrow(Exception.class).when(dao).addProject(obj);
+		when(mapper.map(dto, Project.class)).thenReturn(obj);
+		service.addProject(dto);
+	}
+
 	@Test
-	public final void testDeleteProject() {
+	public final void testDeleteProject() throws UserException {
 		Project project = list.get(0);
 		ProjectDto projectDto = dtoList.get(0);
 		when(mapper.map(projectDto, Project.class)).thenReturn(project);
@@ -168,13 +179,31 @@ public class ProjectServiceImplTest {
 		verify(dao, times(1)).deleteProject(project);
 	}
 
+	@Test(expected = UserException.class)
+	public final void testDeleteProjectWithException() throws UserException {
+		Project obj = list.get(0);
+		ProjectDto dto = dtoList.get(0);
+		doThrow(Exception.class).when(dao).deleteProject(obj);
+		when(mapper.map(dto, Project.class)).thenReturn(obj);
+		service.deleteProject(dto.getId());
+	}
+
 	@Test
-	public final void testUpdateProject() {
+	public final void testUpdateProject() throws UserException {
 		Project project = list.get(0);
 		ProjectDto projectDto = dtoList.get(0);
 		when(mapper.map(projectDto, Project.class)).thenReturn(project);
 		service.updateProject(projectDto, 1);
 		verify(dao, times(1)).updateProject(project);
+	}
+
+	@Test(expected = UserException.class)
+	public final void testUpdateProjectWithException() throws UserException {
+		Project obj = list.get(0);
+		ProjectDto dto = dtoList.get(0);
+		doThrow(Exception.class).when(dao).updateProject(obj);
+		when(mapper.map(dto, Project.class)).thenReturn(obj);
+		service.updateProject(dto, dto.getId());
 	}
 
 	@Test

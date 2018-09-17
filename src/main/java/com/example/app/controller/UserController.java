@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.app.constants.ConstantsIf;
 import com.example.app.dto.ResponseMessage;
 import com.example.app.dto.UserDto;
+import com.example.app.exception.UserException;
 import com.example.app.service.UserService;
 
 @RestController
@@ -35,7 +36,7 @@ public class UserController extends BaseController {
 	public ResponseMessage addUser(@RequestBody UserDto user) {
 		try {
 			service.addUser(user);
-		} catch (Exception e) {
+		} catch (UserException e) {
 			logger.debug(e.getMessage());
 			return new ResponseMessage(false, getAppMessage(ConstantsIf.SAVE_ERROR), e);
 		}
@@ -46,7 +47,7 @@ public class UserController extends BaseController {
 	public ResponseMessage deleteUser(@PathVariable(name = "id") int id) {
 		try {
 			service.deleteUser(id);
-		} catch (Exception e) {
+		} catch (UserException e) {
 			logger.debug(e.getMessage());
 			return new ResponseMessage(false, getAppMessage(ConstantsIf.DELETE_ERROR), e);
 		}
@@ -57,7 +58,7 @@ public class UserController extends BaseController {
 	public ResponseMessage updateUser(@PathVariable(name = "id") int id, @RequestBody UserDto user) {
 		try {
 			service.updateUser(user, id);
-		} catch (Exception e) {
+		} catch (UserException e) {
 			logger.debug(e.getMessage());
 			return new ResponseMessage(false, getAppMessage(ConstantsIf.UPDATE_ERROR), e);
 		}

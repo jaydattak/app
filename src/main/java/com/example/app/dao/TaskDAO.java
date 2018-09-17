@@ -7,7 +7,7 @@ import com.example.app.entity.Task;
 public interface TaskDAO {
 	public List<Task> getTaskList();
 
-	public void addTask(Task project);
+	public void addTask(Task task);
 
 	public void deleteTask(Task map);
 

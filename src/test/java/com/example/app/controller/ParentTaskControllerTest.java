@@ -4,6 +4,7 @@
 package com.example.app.controller;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.example.app.dto.ParentTaskDto;
 import com.example.app.dto.ResponseMessage;
+import com.example.app.exception.UserException;
 import com.example.app.service.impl.ParentTaskServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -52,6 +54,8 @@ public class ParentTaskControllerTest {
 	List<ParentTaskDto> mulipleItemsList = new ArrayList<ParentTaskDto>();
 
 	private ResponseMessage successMesg;
+
+	private ResponseMessage errorMesg;
 
 	/**
 	 * @throws java.lang.Exception
@@ -116,6 +120,22 @@ public class ParentTaskControllerTest {
 		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 
 		assertEquals(jsonMapper.writeValueAsString(successMesg), result.getResponse().getContentAsString());
+	}
+
+	@Test
+	public final void testAddTaskWithException() throws Exception {
+		errorMesg = new ResponseMessage(false, "Record not saved!");
+
+		ParentTaskDto dto = list.get(0);
+
+		doThrow(new UserException("Exception")).when(service).addTask(dto);
+
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.post(BASE_URL + "add")
+				.contentType(MediaType.APPLICATION_JSON_UTF8).content(jsonMapper.writeValueAsString(list.get(0)));
+
+		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+
+		assertEquals(jsonMapper.writeValueAsString(errorMesg), result.getResponse().getContentAsString());
 	}
 
 	@Test

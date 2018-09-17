@@ -1,6 +1,7 @@
 package com.example.app.service.impl;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -21,6 +22,7 @@ import com.example.app.dto.ParentTaskDto;
 import com.example.app.dto.TaskDto;
 import com.example.app.entity.ParentTask;
 import com.example.app.entity.Task;
+import com.example.app.exception.UserException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -142,7 +144,7 @@ public class TaskServiceImplTest {
 	}
 
 	@Test
-	public final void testAddTask() {
+	public final void testAddTask() throws UserException {
 		Task task = list.get(0);
 		TaskDto taskDto = dtoList.get(0);
 		when(mapper.map(taskDto, Task.class)).thenReturn(task);
@@ -150,8 +152,17 @@ public class TaskServiceImplTest {
 		verify(dao, times(1)).addTask(task);
 	}
 
+	@Test(expected = UserException.class)
+	public final void testAddTaskWithException() throws UserException {
+		Task task = list.get(0);
+		TaskDto taskDto = dtoList.get(0);
+		doThrow(Exception.class).when(dao).addTask(task);
+		when(mapper.map(taskDto, Task.class)).thenReturn(task);
+		service.addTask(taskDto);
+	}
+
 	@Test
-	public final void testDeleteTask() {
+	public final void testDeleteTask() throws UserException {
 		TaskDto taskDto = dtoList.get(0);
 		Task task = list.get(0);
 		when(mapper.map(taskDto, Task.class)).thenReturn(task);
@@ -159,17 +170,35 @@ public class TaskServiceImplTest {
 		verify(dao, times(1)).deleteTask(task);
 	}
 
+	@Test(expected = UserException.class)
+	public final void testDeleteTaskWithException() throws UserException {
+		Task task = list.get(0);
+		TaskDto taskDto = dtoList.get(0);
+		doThrow(Exception.class).when(dao).deleteTask(task);
+		when(mapper.map(taskDto, Task.class)).thenReturn(task);
+		service.deleteTask(taskDto.getId());
+	}
+
 	@Test
-	public final void testUpdateTask() {
+	public final void testUpdateTask() throws UserException {
 		Task task = list.get(0);
 		TaskDto taskDto = dtoList.get(0);
 		when(mapper.map(taskDto, Task.class)).thenReturn(task);
 		service.updateTask(taskDto, taskDto.getId());
 		verify(dao, times(1)).updateTask(task);
 	}
-	
+
+	@Test(expected = UserException.class)
+	public final void testUpdateTaskWithException() throws UserException {
+		Task task = list.get(0);
+		TaskDto taskDto = dtoList.get(0);
+		doThrow(Exception.class).when(dao).updateTask(task);
+		when(mapper.map(taskDto, Task.class)).thenReturn(task);
+		service.updateTask(taskDto, taskDto.getId());
+	}
+
 	@Test
-	public final void testUpdateTaskWithParentTask() {
+	public final void testUpdateTaskWithParentTask() throws UserException {
 		Task task = mulipleItemsList.get(1);
 		TaskDto taskDto = dtoMulipleItemsList.get(1);
 		taskDto.setParentTask(new ParentTaskDto());

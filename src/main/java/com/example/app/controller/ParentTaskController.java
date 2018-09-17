@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.app.constants.ConstantsIf;
 import com.example.app.dto.ParentTaskDto;
 import com.example.app.dto.ResponseMessage;
+import com.example.app.exception.UserException;
 import com.example.app.service.ParentTaskService;
 
 @RestController
@@ -36,7 +37,7 @@ public class ParentTaskController extends BaseController {
 	public ResponseMessage addParentTask(@RequestBody ParentTaskDto task) {
 		try {
 			service.addTask(task);
-		} catch (Exception e) {
+		} catch (UserException e) {
 			logger.debug(e.getMessage());
 			return new ResponseMessage(false, getAppMessage(ConstantsIf.SAVE_ERROR), e);
 		}

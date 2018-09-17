@@ -1,6 +1,7 @@
 package com.example.app.service.impl;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -19,6 +20,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.example.app.dao.ParentTaskDAO;
 import com.example.app.dto.ParentTaskDto;
 import com.example.app.entity.ParentTask;
+import com.example.app.exception.UserException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -125,7 +127,7 @@ public class ParentTaskServiceImplTest {
 	}
 
 	@Test
-	public final void testAddParentTask() {
+	public final void testAddParentTask() throws UserException {
 		ParentTask task = new ParentTask();
 		task.setId(1);
 		task.setName("PR");
@@ -134,6 +136,15 @@ public class ParentTaskServiceImplTest {
 		when(mapper.map(taskDto, ParentTask.class)).thenReturn(task);
 		service.addTask(taskDto);
 		verify(dao, times(1)).addTask(task);
+	}
+	
+	@Test(expected = UserException.class)
+	public final void testAddTaskWithException() throws UserException {
+		ParentTask task = list.get(0);
+		ParentTaskDto taskDto = dtoList.get(0);
+		doThrow(UserException.class).when(dao).addTask(task);
+		when(mapper.map(taskDto, ParentTask.class)).thenReturn(task);
+		service.addTask(taskDto);
 	}
 
 	@Test

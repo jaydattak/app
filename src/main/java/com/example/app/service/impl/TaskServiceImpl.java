@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.example.app.dao.TaskDAO;
 import com.example.app.dto.TaskDto;
 import com.example.app.entity.Task;
+import com.example.app.exception.UserException;
 import com.example.app.service.TaskService;
 
 @Service
@@ -35,29 +36,41 @@ public class TaskServiceImpl extends BaseService implements TaskService {
 	}
 
 	@Override
-	public void addTask(TaskDto taskDto) {
-		Task task = mapper.map(taskDto, Task.class);
-		if (taskDto.isMainTask()) {
-			task.setParentTask(null);
+	public void addTask(TaskDto taskDto) throws UserException {
+		try {
+			Task task = mapper.map(taskDto, Task.class);
+			if (taskDto.isMainTask()) {
+				task.setParentTask(null);
+			}
+			dao.addTask(task);
+		} catch (Exception e) {
+			throw new UserException(e.getMessage(), e);
 		}
-		dao.addTask(task);
 	}
 
 	@Override
-	public void deleteTask(int id) {
-		TaskDto taskDto = new TaskDto();
-		taskDto.setId(id);
-		Task task = mapper.map(taskDto, Task.class);
-		dao.deleteTask(task);
+	public void deleteTask(int id) throws UserException {
+		try {
+			TaskDto taskDto = new TaskDto();
+			taskDto.setId(id);
+			Task task = mapper.map(taskDto, Task.class);
+			dao.deleteTask(task);
+		} catch (Exception e) {
+			throw new UserException(e.getMessage(), e);
+		}
 	}
 
 	@Override
-	public void updateTask(TaskDto task, int id) {
-		task.setId(id);
-		if (task.getParentTask() != null && task.getParentTask().getId() == 0) {
-			task.setParentTask(null);
+	public void updateTask(TaskDto task, int id) throws UserException {
+		try {
+			task.setId(id);
+			if (task.getParentTask() != null && task.getParentTask().getId() == 0) {
+				task.setParentTask(null);
+			}
+			dao.updateTask(mapper.map(task, Task.class));
+		} catch (Exception e) {
+			throw new UserException(e.getMessage(), e);
 		}
-		dao.updateTask(mapper.map(task, Task.class));
 	}
 
 	@Override

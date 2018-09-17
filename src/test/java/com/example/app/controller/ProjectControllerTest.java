@@ -1,6 +1,7 @@
 package com.example.app.controller;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.doThrow;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.example.app.dto.ProjectDto;
 import com.example.app.dto.ResponseMessage;
+import com.example.app.exception.UserException;
 import com.example.app.service.ProjectService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -44,6 +46,8 @@ public class ProjectControllerTest {
 	List<ProjectDto> mulipleItemsList = new ArrayList<ProjectDto>();
 
 	private ResponseMessage successMesg;
+
+	private ResponseMessage errorMesg;
 
 	/**
 	 * @throws java.lang.Exception
@@ -100,6 +104,22 @@ public class ProjectControllerTest {
 	}
 
 	@Test
+	public final void testAddProjectWithException() throws Exception {
+		errorMesg = new ResponseMessage(false, "Record not saved!");
+
+		ProjectDto projectDto = list.get(0);
+
+		doThrow(new UserException("Exception")).when(service).addProject(projectDto);
+
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.post(BASE_URL + "add")
+				.contentType(MediaType.APPLICATION_JSON_UTF8).content(jsonMapper.writeValueAsString(list.get(0)));
+
+		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+
+		assertEquals(jsonMapper.writeValueAsString(errorMesg), result.getResponse().getContentAsString());
+	}
+
+	@Test
 	public final void testDeleteProject() throws Exception {
 		successMesg = new ResponseMessage(true, "Record deleted successfully!");
 
@@ -109,6 +129,39 @@ public class ProjectControllerTest {
 		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 
 		assertEquals(jsonMapper.writeValueAsString(successMesg), result.getResponse().getContentAsString());
+	}
+
+	@Test
+	public final void testDeleteProjectWithException() throws Exception {
+		errorMesg = new ResponseMessage(false, "Record not deleted!");
+
+		ProjectDto dto = list.get(0);
+
+		doThrow(new UserException("Exception")).when(service).deleteProject(dto.getId());
+
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.delete(BASE_URL + dto.getId())
+				.contentType(MediaType.APPLICATION_JSON_UTF8).content(jsonMapper.writeValueAsString(list.get(0)));
+
+		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+
+		assertEquals(jsonMapper.writeValueAsString(errorMesg), result.getResponse().getContentAsString());
+	}
+
+	@Test
+	public final void testUpdateProjectWithException() throws Exception {
+
+		errorMesg = new ResponseMessage(false, "Record not updated!");
+
+		ProjectDto dto = list.get(0);
+
+		doThrow(new UserException("Exception")).when(service).updateProject(dto, dto.getId());
+
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.put(BASE_URL + "1")
+				.contentType(MediaType.APPLICATION_JSON_UTF8).content(jsonMapper.writeValueAsString(list.get(0)));
+
+		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+
+		assertEquals(jsonMapper.writeValueAsString(errorMesg), result.getResponse().getContentAsString());
 	}
 
 	@Test

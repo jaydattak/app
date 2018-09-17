@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.example.app.dao.ProjectDAO;
 import com.example.app.dto.ProjectDto;
 import com.example.app.entity.Project;
+import com.example.app.exception.UserException;
 import com.example.app.service.ProjectService;
 
 @Service
@@ -35,21 +36,34 @@ public class ProjectServiceImpl extends BaseService implements ProjectService {
 	}
 
 	@Override
-	public void addProject(ProjectDto project) {
-		dao.addProject(mapper.map(project, Project.class));
+	public void addProject(ProjectDto project) throws UserException {
+		try {
+			dao.addProject(mapper.map(project, Project.class));
+		} catch (Exception e) {
+			throw new UserException(e.getMessage(), e);
+		}
 	}
 
 	@Override
-	public void deleteProject(int id) {
-		ProjectDto project = new ProjectDto();
-		project.setId(id);
-		dao.deleteProject(mapper.map(project, Project.class));
+	public void deleteProject(int id) throws UserException {
+		try {
+			ProjectDto project = new ProjectDto();
+			project.setId(id);
+			dao.deleteProject(mapper.map(project, Project.class));
+		} catch (Exception e) {
+			throw new UserException(e.getMessage(), e);
+		}
+
 	}
 
 	@Override
-	public void updateProject(ProjectDto project, int id) {
-		project.setId(id);
-		dao.updateProject(mapper.map(project, Project.class));
+	public void updateProject(ProjectDto project, int id) throws UserException {
+		try {
+			project.setId(id);
+			dao.updateProject(mapper.map(project, Project.class));
+		} catch (Exception e) {
+			throw new UserException(e.getMessage(), e);
+		}
 	}
 
 	@Override

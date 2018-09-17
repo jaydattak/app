@@ -1,6 +1,7 @@
 package com.example.app.service.impl;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -19,6 +20,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.example.app.dao.UserDAO;
 import com.example.app.dto.UserDto;
 import com.example.app.entity.User;
+import com.example.app.exception.UserException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -125,7 +127,7 @@ public class UserServiceImplTest {
 	}
 
 	@Test
-	public final void testAddUser() {
+	public final void testAddUser() throws UserException {
 		User user = new User();
 		user.setId(1);
 		user.setFirstName("PR");
@@ -136,8 +138,17 @@ public class UserServiceImplTest {
 		verify(dao, times(1)).addUser(user);
 	}
 
+	@Test(expected = UserException.class)
+	public final void testAddUserWithException() throws UserException {
+		User obj = list.get(0);
+		UserDto dto = dtoList.get(0);
+		doThrow(Exception.class).when(dao).addUser(obj);
+		when(mapper.map(dto, User.class)).thenReturn(obj);
+		service.addUser(dto);
+	}
+
 	@Test
-	public final void testDeleteUser() {
+	public final void testDeleteUser() throws UserException {
 		User user = new User();
 		user.setId(1);
 		user.setFirstName("PR");
@@ -149,8 +160,17 @@ public class UserServiceImplTest {
 		verify(dao, times(1)).deleteUser(user);
 	}
 
+	@Test(expected = UserException.class)
+	public final void testDeleteUserWithException() throws UserException {
+		User obj = list.get(0);
+		UserDto dto = dtoList.get(0);
+		doThrow(Exception.class).when(dao).deleteUser(obj);
+		when(mapper.map(dto, User.class)).thenReturn(obj);
+		service.deleteUser(dto.getId());
+	}
+
 	@Test
-	public final void testUpdateUser() {
+	public final void testUpdateUser() throws UserException {
 		User user = new User();
 		user.setId(1);
 		user.setFirstName("PR");
@@ -159,6 +179,15 @@ public class UserServiceImplTest {
 		when(mapper.map(userDto, User.class)).thenReturn(user);
 		service.updateUser(userDto, 1);
 		verify(dao, times(1)).updateUser(user);
+	}
+
+	@Test(expected = UserException.class)
+	public final void testUpdateUserWithException() throws UserException {
+		User obj = list.get(0);
+		UserDto dto = dtoList.get(0);
+		doThrow(Exception.class).when(dao).updateUser(obj);
+		when(mapper.map(dto, User.class)).thenReturn(obj);
+		service.updateUser(dto, dto.getId());
 	}
 
 	@Test

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.example.app.dao.ParentTaskDAO;
 import com.example.app.dto.ParentTaskDto;
 import com.example.app.entity.ParentTask;
+import com.example.app.exception.UserException;
 import com.example.app.service.ParentTaskService;
 
 @Service
@@ -34,9 +35,14 @@ public class ParentTaskServiceImpl extends BaseService implements ParentTaskServ
 	}
 
 	@Override
-	public void addTask(ParentTaskDto taskDto) {
-		ParentTask task = mapper.map(taskDto, ParentTask.class);
-		dao.addTask(task);
+	public void addTask(ParentTaskDto taskDto) throws UserException {
+		try {
+			ParentTask task = mapper.map(taskDto, ParentTask.class);
+			dao.addTask(task);
+		} catch (Exception e) {
+			throw new UserException(e.getMessage(), e);
+		}
+
 	}
 
 	@Override
