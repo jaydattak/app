@@ -20,6 +20,8 @@ public class ProjectDto {
 
 	private int noOfCompletedTasks;
 
+	private String status;
+
 	public int getId() {
 		return id;
 	}
@@ -82,6 +84,14 @@ public class ProjectDto {
 
 	public void setNoOfCompletedTasks(int noOfCompletedTasks) {
 		this.noOfCompletedTasks = noOfCompletedTasks;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	@Override

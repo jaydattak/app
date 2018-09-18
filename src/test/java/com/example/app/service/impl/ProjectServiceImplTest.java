@@ -63,6 +63,7 @@ public class ProjectServiceImplTest {
 		Task task = new Task();
 		task.setId(1);
 		task.setName("T1");
+		task.setStatus("completed");
 
 		Set<Task> tasks = new HashSet<Task>();
 		tasks.add(task);
@@ -119,6 +120,7 @@ public class ProjectServiceImplTest {
 		assertEquals(1, projects.size());
 		assertEquals(1, projects.get(0).getId());
 		assertEquals("ParentProject1", projects.get(0).getName());
+		assertEquals(1, projects.get(0).getNoOfCompletedTasks());
 	}
 
 	@Test
@@ -219,6 +221,7 @@ public class ProjectServiceImplTest {
 		assertEquals(1, projects.size());
 		assertEquals(1, projects.get(0).getId());
 		assertEquals("ParentProject1", projects.get(0).getName());
+		assertEquals(1, projects.get(0).getNoOfCompletedTasks());
 	}
 
 	@Test
@@ -233,7 +236,7 @@ public class ProjectServiceImplTest {
 		assertEquals(1, projects.size());
 		assertEquals(1, project.getId());
 		assertEquals("ParentProject1", project.getName());
-
+		assertEquals(1, projects.get(0).getNoOfCompletedTasks());
 	}
 
 }

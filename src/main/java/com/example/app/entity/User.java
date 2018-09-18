@@ -23,13 +23,13 @@ public class User implements Serializable {
 	@Column(name = "User_ID")
 	private int id;
 
-	@Column(name = "first_name")
+	@Column(name = "first_name", nullable = false)
 	private String firstName;
 
-	@Column(name = "last_name")
+	@Column(name = "last_name", nullable = false)
 	private String lastName;
 
-	@Column(name = "employee_ID")
+	@Column(name = "employee_ID", unique = true, nullable = false)
 	private String employeeId;
 
 	public int getId() {

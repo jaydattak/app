@@ -1,6 +1,7 @@
 package com.example.app.dao.impl;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import com.example.app.dao.ProjectDAO;
 import com.example.app.entity.Project;
+import com.example.app.entity.Task;
 import com.example.app.entity.User;
 
 @Transactional
@@ -41,6 +43,11 @@ public class ProjectDAOImpl implements ProjectDAO {
 
 	@Override
 	public void updateProject(Project project) {
+		if (!entityManager.contains(project.getManager())) {
+			Project projecTemp = entityManager.getReference(Project.class, project.getId());
+			Set<Task> tasks = projecTemp.getTasks();
+			project.setTasks(tasks);
+		}
 		entityManager.merge(project);
 	}
 
@@ -65,10 +72,15 @@ public class ProjectDAOImpl implements ProjectDAO {
 	@Override
 	public List<Project> sortProjects(String sortFlag) {
 		logger.debug("sortFlag : " + sortFlag);
+		String query = "order by ";
 		if ("id".equals(sortFlag)) {
-			sortFlag = "employeeId";
+			query += "employeeId";
+		} else if ("completed".equals(sortFlag)) {
+			query = "where status = 'completed' order by status";
+		} else {
+			query += sortFlag;
 		}
-		List<Project> projects = entityManager.createQuery("from Project order by " + sortFlag).getResultList();
+		List<Project> projects = entityManager.createQuery("from Project " + query).getResultList();
 		return projects;
 	}
 

@@ -163,7 +163,7 @@ public class ProjectDAOImplTest {
 	@Test
 	public final void testUpdateProject() {
 		Project project = list.get(0);
-
+		when(entityManager.getReference(Project.class, project.getId())).thenReturn(project);
 		dao.updateProject(project);
 
 		verify(entityManager, times(1)).merge(project);
@@ -210,4 +210,22 @@ public class ProjectDAOImplTest {
 		assertEquals(1, projects.size());
 	}
 
+	@Test
+	public final void testSortProjectsWithSortCompleted() {
+		when(entityManager.createQuery("from Project where status = 'completed' order by status"))
+				.thenReturn(query);
+		when(query.setParameter(1, "completed")).thenReturn(query);
+		when(query.getResultList()).thenReturn(list);
+		List<Project> projects = dao.sortProjects("completed");
+		assertEquals(1, projects.size());
+	}
+
+	@Test
+	public final void testSortProjectstWithSortStartDate() {
+		when(entityManager.createQuery("from Project order by startDate")).thenReturn(query);
+		when(query.setParameter(1, "startDate")).thenReturn(query);
+		when(query.getResultList()).thenReturn(list);
+		List<Project> projects = dao.sortProjects("startDate");
+		assertEquals(1, projects.size());
+	}
 }

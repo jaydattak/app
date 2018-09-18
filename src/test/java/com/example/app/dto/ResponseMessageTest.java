@@ -1,10 +1,9 @@
 package com.example.app.dto;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.dao.DataIntegrityViolationException;
 
 import com.example.app.exception.UserException;
 

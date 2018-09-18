@@ -44,6 +44,9 @@ public class Project implements Serializable {
 	@Column(name = "priority")
 	private int priority;
 
+	@Column(name = "status")
+	private String status;
+
 	@ManyToOne(targetEntity = User.class)
 	@JoinTable(name = "PROJECT_MANAGER", joinColumns = @JoinColumn(name = "Project_ID", referencedColumnName = "Project_ID"), inverseJoinColumns = @JoinColumn(name = "Manager_ID", referencedColumnName = "User_ID"))
 	private User manager;
@@ -90,6 +93,14 @@ public class Project implements Serializable {
 
 	public void setPriority(int priority) {
 		this.priority = priority;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	public User getManager() {

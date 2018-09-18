@@ -28,7 +28,7 @@ public class Task implements Serializable {
 	@Column(name = "Task_ID")
 	private int id;
 
-	@Column(name = "Task")
+	@Column(name = "Task", unique = true)
 	private String name;
 
 	@ManyToOne(targetEntity = ParentTask.class)
@@ -129,5 +129,4 @@ public class Task implements Serializable {
 		this.user = user;
 	}
 
-	
 }

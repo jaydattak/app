@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.example.app.dao.ProjectDAO;
 import com.example.app.dto.ProjectDto;
 import com.example.app.entity.Project;
+import com.example.app.entity.Task;
 import com.example.app.exception.UserException;
 import com.example.app.service.ProjectService;
 
@@ -22,6 +23,16 @@ public class ProjectServiceImpl extends BaseService implements ProjectService {
 	@Autowired
 	private ProjectDAO dao;
 
+	private int calculateNoOfCompletedTasks(Project project) {
+		int count = 0;
+		for (Task task : project.getTasks()) {
+			if ("completed".equals(task.getStatus())) {
+				count++;
+			}
+		}
+		return count;
+	}
+
 	@Override
 	public List<ProjectDto> getProjectList() {
 		ProjectDto project = null;
@@ -29,6 +40,7 @@ public class ProjectServiceImpl extends BaseService implements ProjectService {
 		for (Project obj : dao.getProjectList()) {
 			project = mapper.map(obj, ProjectDto.class);
 			project.setNoOfTasks(obj.getTasks().size());
+			project.setNoOfCompletedTasks(calculateNoOfCompletedTasks(obj));
 			list.add(project);
 			logger.debug("List Size : " + list.size());
 		}
@@ -68,9 +80,13 @@ public class ProjectServiceImpl extends BaseService implements ProjectService {
 
 	@Override
 	public List<ProjectDto> searchProject(String searchText) {
+		ProjectDto project = null;
 		List<ProjectDto> list = new ArrayList<ProjectDto>();
 		for (Project obj : dao.searchProjects(searchText)) {
-			list.add(mapper.map(obj, ProjectDto.class));
+			project = mapper.map(obj, ProjectDto.class);
+			project.setNoOfTasks(obj.getTasks().size());
+			project.setNoOfCompletedTasks(calculateNoOfCompletedTasks(obj));
+			list.add(project);
 			logger.debug("List Size : " + list.size());
 		}
 		return list;
@@ -78,9 +94,13 @@ public class ProjectServiceImpl extends BaseService implements ProjectService {
 
 	@Override
 	public List<ProjectDto> sortProjects(String flag) {
+		ProjectDto project = null;
 		List<ProjectDto> list = new ArrayList<ProjectDto>();
 		for (Project obj : dao.sortProjects(flag)) {
-			list.add(mapper.map(obj, ProjectDto.class));
+			project = mapper.map(obj, ProjectDto.class);
+			project.setNoOfTasks(obj.getTasks().size());
+			project.setNoOfCompletedTasks(calculateNoOfCompletedTasks(obj));
+			list.add(project);
 			logger.debug("List Size : " + list.size());
 		}
 		return list;
