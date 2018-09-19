@@ -18,13 +18,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.example.app.dto.ParentTaskDto;
 import com.example.app.entity.ParentTask;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@RunWith(SpringRunner.class)
+@RunWith(SpringJUnit4ClassRunner.class)
 public class ParentTaskDAOImplTest {
 
 	@InjectMocks
@@ -92,7 +92,6 @@ public class ParentTaskDAOImplTest {
 		verify(entityManager, times(1)).persist(task);
 	}
 
-	
 	@Test
 	public final void testSearchTasks() {
 		when(entityManager.createQuery("from ParentTask where name like ?1")).thenReturn(query);

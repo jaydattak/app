@@ -48,7 +48,7 @@ public class Project implements Serializable {
 	private String status;
 
 	@ManyToOne(targetEntity = User.class)
-	@JoinTable(name = "PROJECT_MANAGER", joinColumns = @JoinColumn(name = "Project_ID", referencedColumnName = "Project_ID"), inverseJoinColumns = @JoinColumn(name = "Manager_ID", referencedColumnName = "User_ID"))
+	@JoinTable(name = "PROJECT_MANAGER", joinColumns = @JoinColumn(name = "Project_ID", referencedColumnName = "Project_ID"), inverseJoinColumns = @JoinColumn(name = "Manager_ID", referencedColumnName = "User_ID", nullable = true))
 	private User manager;
 
 	@OneToMany(targetEntity = Task.class, cascade = CascadeType.ALL)

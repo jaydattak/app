@@ -21,7 +21,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.example.app.dto.TaskDto;
 import com.example.app.entity.ParentTask;
@@ -30,7 +30,7 @@ import com.example.app.entity.Task;
 import com.example.app.entity.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@RunWith(SpringRunner.class)
+@RunWith(SpringJUnit4ClassRunner.class)
 public class TaskDAOImplTest {
 
 	@InjectMocks
@@ -121,7 +121,7 @@ public class TaskDAOImplTest {
 		List<Task> tasks = dao.getTaskList();
 		assertEquals(1, tasks.size());
 		assertEquals(15, tasks.get(0).getPriority());
-		assertEquals(0,tasks.get(0).getStartDate().compareTo(getToday()));
+		assertEquals(0, tasks.get(0).getStartDate().compareTo(getToday()));
 		assertEquals(0, tasks.get(0).getEndDate().compareTo(getToday()));
 		assertEquals("STATUS", tasks.get(0).getStatus());
 	}

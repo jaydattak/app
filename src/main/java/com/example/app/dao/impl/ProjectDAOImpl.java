@@ -34,7 +34,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 
 	@Override
 	public void addProject(Project project) {
-		if (!entityManager.contains(project.getManager())) {
+		if (project.getManager() != null && !entityManager.contains(project.getManager())) {
 			User user = entityManager.getReference(User.class, project.getManager().getId());
 			project.setManager(user);
 		}
@@ -43,6 +43,11 @@ public class ProjectDAOImpl implements ProjectDAO {
 
 	@Override
 	public void updateProject(Project project) {
+		if (project.getManager() != null && !entityManager.contains(project.getManager())) {
+			User user = entityManager.getReference(User.class, project.getManager().getId());
+			project.setManager(user);
+		}
+
 		if (!entityManager.contains(project.getManager())) {
 			Project projecTemp = entityManager.getReference(Project.class, project.getId());
 			Set<Task> tasks = projecTemp.getTasks();
