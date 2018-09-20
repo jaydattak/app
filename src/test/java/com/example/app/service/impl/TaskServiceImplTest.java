@@ -187,6 +187,16 @@ public class TaskServiceImplTest {
 		service.updateTask(taskDto, taskDto.getId());
 		verify(dao, times(1)).updateTask(task);
 	}
+	
+	
+	@Test
+	public final void testUpdateTaskWithParentTaskNull() throws UserException {
+		Task task = mulipleItemsList.get(1);
+		TaskDto taskDto = dtoMulipleItemsList.get(1);
+		when(mapper.map(taskDto, Task.class)).thenReturn(task);
+		service.updateTask(taskDto, taskDto.getId());
+		verify(dao, times(1)).updateTask(task);
+	}
 
 	@Test(expected = UserException.class)
 	public final void testUpdateTaskWithException() throws UserException {

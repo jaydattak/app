@@ -94,6 +94,17 @@ public class TaskDAOImplTest {
 		task = new Task();
 		task.setId(2);
 		task.setName("Task2");
+		
+		project = new Project();
+		project.setId(1);
+		project.setName("Project1");
+		task.setProject(project);
+
+		user = new User();
+		user.setId(1);
+		user.setFirstName("FName");
+		user.setEmployeeId("1001");
+		task.setUser(user);
 
 		mulipleItemsList.add(task);
 	}
@@ -140,6 +151,21 @@ public class TaskDAOImplTest {
 
 		verify(entityManager, times(1)).persist(task);
 	}
+	
+	@Test
+	public final void testAddTaskWithParentTaskAsNull() {
+		Task task = mulipleItemsList.get(1);
+
+		when(entityManager.contains(task.getProject())).thenReturn(true);
+		when(entityManager.getReference(Project.class, task.getProject().getId())).thenReturn(task.getProject());
+
+		when(entityManager.contains(task.getUser())).thenReturn(true);
+		when(entityManager.getReference(User.class, task.getUser().getId())).thenReturn(task.getUser());
+
+		dao.addTask(task);
+
+		verify(entityManager, times(1)).persist(task);
+	}
 
 	@Test
 	public final void testUpdateTask() {
@@ -155,6 +181,21 @@ public class TaskDAOImplTest {
 		when(entityManager.getReference(ParentTask.class, task.getParentTask().getId()))
 				.thenReturn(task.getParentTask());
 
+		dao.updateTask(task);
+
+		verify(entityManager, times(1)).merge(task);
+	}
+	
+	@Test
+	public final void testUpdateTaskWithParentTaskNull() {
+		Task task = mulipleItemsList.get(1);
+
+		when(entityManager.contains(task.getProject())).thenReturn(true);
+		when(entityManager.getReference(Project.class, task.getProject().getId())).thenReturn(task.getProject());
+
+		when(entityManager.contains(task.getUser())).thenReturn(true);
+		when(entityManager.getReference(User.class, task.getUser().getId())).thenReturn(task.getUser());
+		
 		dao.updateTask(task);
 
 		verify(entityManager, times(1)).merge(task);

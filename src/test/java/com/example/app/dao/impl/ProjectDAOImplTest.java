@@ -148,6 +148,15 @@ public class ProjectDAOImplTest {
 
 		verify(entityManager, times(1)).persist(project);
 	}
+	
+
+	@Test
+	public final void testAddProjectWithUserNull() {
+		Project project = list.get(0);
+		when(entityManager.contains(project.getManager())).thenReturn(true);
+		dao.addProject(project);
+		verify(entityManager, times(1)).persist(project);
+	}
 
 	@Test
 	public final void testAddProjectWithoutReference() {
@@ -169,6 +178,15 @@ public class ProjectDAOImplTest {
 
 	@Test
 	public final void testUpdateProject() {
+		Project project = list.get(0);
+		when(entityManager.getReference(Project.class, project.getId())).thenReturn(project);
+		dao.updateProject(project);
+
+		verify(entityManager, times(1)).merge(project);
+	}
+	
+	@Test
+	public final void testUpdateProjectWithNull() {
 		Project project = list.get(0);
 		when(entityManager.getReference(Project.class, project.getId())).thenReturn(project);
 		dao.updateProject(project);

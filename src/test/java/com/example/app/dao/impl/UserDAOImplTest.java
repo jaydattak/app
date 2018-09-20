@@ -147,5 +147,13 @@ public class UserDAOImplTest {
 		List<User> users = dao.sortUsers("id");
 		assertEquals(1, users.size());
 	}
+	
+	@Test
+	public final void testSortUsersWithId() {
+		when(entityManager.createQuery("from User order by firstName")).thenReturn(query);
+		when(query.getResultList()).thenReturn(new ArrayList<User>());
+		List<User> users = dao.sortUsers("firstName");
+		assertEquals(0, users.size());
+	}
 
 }
