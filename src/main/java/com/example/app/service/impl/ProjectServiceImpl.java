@@ -42,8 +42,8 @@ public class ProjectServiceImpl extends BaseService implements ProjectService {
 			project.setNoOfTasks(obj.getTasks().size());
 			project.setNoOfCompletedTasks(calculateNoOfCompletedTasks(obj));
 			list.add(project);
-			logger.debug("List Size : " + list.size());
 		}
+		logger.debug("List Size : " + list.size());
 		return list;
 	}
 
@@ -87,8 +87,8 @@ public class ProjectServiceImpl extends BaseService implements ProjectService {
 			project.setNoOfTasks(obj.getTasks().size());
 			project.setNoOfCompletedTasks(calculateNoOfCompletedTasks(obj));
 			list.add(project);
-			logger.debug("List Size : " + list.size());
 		}
+		logger.debug("List Size : " + list.size());
 		return list;
 	}
 
@@ -101,8 +101,8 @@ public class ProjectServiceImpl extends BaseService implements ProjectService {
 			project.setNoOfTasks(obj.getTasks().size());
 			project.setNoOfCompletedTasks(calculateNoOfCompletedTasks(obj));
 			list.add(project);
-			logger.debug("List Size : " + list.size());
 		}
+		logger.debug("List Size : " + list.size());
 		return list;
 	}
 

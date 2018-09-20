@@ -24,14 +24,13 @@ public class TaskServiceImpl extends BaseService implements TaskService {
 
 	@Override
 	public List<TaskDto> getTaskList() {
-		logger.debug("getTaskList");
 		TaskDto task = null;
 		List<TaskDto> list = new ArrayList<TaskDto>();
 		for (Task tempObj : dao.getTaskList()) {
 			task = mapper.map(tempObj, TaskDto.class);
 			list.add(task);
-			logger.debug("List Size : " + list.size());
 		}
+		logger.debug("List Size : " + list.size());
 		return list;
 	}
 
@@ -78,8 +77,8 @@ public class TaskServiceImpl extends BaseService implements TaskService {
 		List<TaskDto> list = new ArrayList<TaskDto>();
 		for (Task obj : dao.searchTasks(searchText)) {
 			list.add(mapper.map(obj, TaskDto.class));
-			logger.debug("List Size : " + list.size());
 		}
+		logger.debug("List Size : " + list.size());
 		return list;
 	}
 
@@ -88,8 +87,8 @@ public class TaskServiceImpl extends BaseService implements TaskService {
 		List<TaskDto> list = new ArrayList<TaskDto>();
 		for (Task obj : dao.sortTasks(flag)) {
 			list.add(mapper.map(obj, TaskDto.class));
-			logger.debug("List Size : " + list.size());
 		}
+		logger.debug("List Size : " + list.size());
 		return list;
 	}
 
@@ -100,8 +99,8 @@ public class TaskServiceImpl extends BaseService implements TaskService {
 		for (Task tempObj : dao.getTaskListByProject(id)) {
 			task = mapper.map(tempObj, TaskDto.class);
 			list.add(task);
-			logger.debug("List Size : " + list.size());
 		}
+		logger.debug("List Size : " + list.size());
 		return list;
 	}
 
@@ -112,8 +111,8 @@ public class TaskServiceImpl extends BaseService implements TaskService {
 		for (Task tempObj : dao.getTaskListByProjectWithSort(id, sortBy)) {
 			task = mapper.map(tempObj, TaskDto.class);
 			list.add(task);
-			logger.debug("List Size : " + list.size());
 		}
+		logger.debug("List Size : " + list.size());
 		return list;
 	}
 

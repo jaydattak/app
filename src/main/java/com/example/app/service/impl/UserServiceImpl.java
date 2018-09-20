@@ -27,8 +27,8 @@ public class UserServiceImpl extends BaseService implements UserService {
 		List<UserDto> list = new ArrayList<UserDto>();
 		for (User user : dao.getUserList()) {
 			list.add(mapper.map(user, UserDto.class));
-			logger.debug("List Size : " + list.size());
 		}
+		logger.debug("List Size : " + list.size());
 		return list;
 	}
 
@@ -70,8 +70,8 @@ public class UserServiceImpl extends BaseService implements UserService {
 		List<UserDto> list = new ArrayList<UserDto>();
 		for (User user : dao.searchUsers(searchText)) {
 			list.add(mapper.map(user, UserDto.class));
-			logger.debug("List Size : " + list.size());
 		}
+		logger.debug("List Size : " + list.size());
 		return list;
 	}
 
@@ -80,8 +80,8 @@ public class UserServiceImpl extends BaseService implements UserService {
 		List<UserDto> list = new ArrayList<UserDto>();
 		for (User user : dao.sortUsers(flag)) {
 			list.add(mapper.map(user, UserDto.class));
-			logger.debug("List Size : " + list.size());
 		}
+		logger.debug("List Size : " + list.size());
 		return list;
 	}
 
