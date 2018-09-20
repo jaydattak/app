@@ -36,6 +36,17 @@ public class UserDtoTest {
 		obj1.setId(1);
 		obj1.setFirstName("User");
 		assertEquals(true, obj.equals(obj1));
+		
+		
+		UserDto obj2 = new UserDto();
+		obj2.setId(1);
+		obj2.setFirstName("User");
+		assertEquals(true, obj2.getId() == obj.getId());
+		
+		UserDto obj3 = new UserDto();
+		obj3.setId(3);
+		obj3.setFirstName("User");
+		assertEquals(false, obj3.getId() == obj.getId());
 
 		UserDto nullObj = null;
 		assertEquals(false, obj.equals(nullObj));

@@ -37,6 +37,17 @@ public class ParentTaskDtoTest {
 		obj1.setName("ParentTask");
 		assertEquals(true, obj.equals(obj1));
 		
+		ParentTaskDto obj2 = new ParentTaskDto();
+		obj2.setId(1);
+		obj2.setName("ParentTask");
+		assertEquals(true, obj2.getId() == obj.getId());
+		
+		ParentTaskDto obj3 = new ParentTaskDto();
+		obj3.setId(3);
+		obj3.setName("ParentTask");
+		assertEquals(false, obj3.getId() == obj.getId());
+		
+		
 		ParentTaskDto nullObj = null;
 		assertEquals(false, obj.equals(nullObj));
 

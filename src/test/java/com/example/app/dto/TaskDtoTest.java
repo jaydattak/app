@@ -1,7 +1,7 @@
 package com.example.app.dto;
 
 import static org.junit.Assert.assertEquals;
-
+import static org.mockito.Mockito.when;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -37,6 +37,16 @@ public class TaskDtoTest {
 		obj1.setId(1);
 		obj1.setName("Task");
 		assertEquals(true, obj.equals(obj1));
+		
+		TaskDto obj2 = new TaskDto();
+		obj2.setId(1);
+		obj2.setName("Task");
+		assertEquals(true, obj2.getId() == obj.getId());
+		
+		TaskDto obj3 = new TaskDto();
+		obj3.setId(3);
+		obj3.setName("Task");
+		assertEquals(false, obj3.getId() == obj.getId());
 
 		TaskDto nullObj = null;
 		assertEquals(false, obj.equals(nullObj));

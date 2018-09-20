@@ -102,6 +102,13 @@ public class ProjectDAOImplTest {
 		project.setId(2);
 		project.setName("Project2");
 
+		User user = new User();
+		user.setId(1);
+		user.setFirstName("First");
+		user.setLastName("Last");
+		user.setEmployeeId("100001");
+		project.setManager(user);
+
 		tasks = new HashSet<Task>();
 		tasks.add(task);
 
@@ -163,6 +170,16 @@ public class ProjectDAOImplTest {
 	@Test
 	public final void testUpdateProject() {
 		Project project = list.get(0);
+		when(entityManager.getReference(Project.class, project.getId())).thenReturn(project);
+		dao.updateProject(project);
+
+		verify(entityManager, times(1)).merge(project);
+	}
+
+	@Test
+	public final void testUpdateProjectWithManager() {
+		Project project = mulipleItemsList.get(1);
+		when(entityManager.getReference(User.class, project.getManager().getId())).thenReturn(project.getManager());
 		when(entityManager.getReference(Project.class, project.getId())).thenReturn(project);
 		dao.updateProject(project);
 

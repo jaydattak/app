@@ -48,7 +48,7 @@ public class ProjectDAOImpl implements ProjectDAO {
 			project.setManager(user);
 		}
 
-		if (!entityManager.contains(project.getManager())) {
+		if (!entityManager.contains(project)) {
 			Project projecTemp = entityManager.getReference(Project.class, project.getId());
 			Set<Task> tasks = projecTemp.getTasks();
 			project.setTasks(tasks);
