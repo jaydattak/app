@@ -1,0 +1,27 @@
+version: '2'
+
+services:
+
+database:
+
+image: app-mysql
+
+ports:
+
+- 3306:3306
+
+environment:
+
+MYSQL_ROOT_PASSWORD: pass@word1
+
+java:
+
+image: app
+
+ports:
+
+- 9099:9099
+
+links:
+
+- "database"
